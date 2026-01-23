@@ -68,19 +68,31 @@ const Portfolio = () => {
 
   const projects = [
     {
-      id: 1,
-      title: 'FDF Aside',
-      subtitle: 'Tontine(Ikibina)',
-      description: `FDF Aside is a comprehensive fintech solution designed to digitize the management of traditional savings groups (Ibimina). The platform transitions groups from manual, error-prone paper ledgers to a secure, real-time digital environment, ensuring financial transparency and member accountability. FDF Aside was developed as a collaborative initiative. I worked alongside <a href ="https://github.com/Julesntizimira">Jules Ntizimira</a> to architect the system. We utilized version control (Git) to manage simultaneous feature updates, such as the Live Meeting Tracker and Member Management modules, ensuring a cohesive and bug-free final product.`,
-      challenge: 'Built a secure authentication system with role-based access control while ensuring transaction integrity and scalability for enterprise use.',
-      tech: ['React', 'Node.js', 'MongoDB', 'JWT', 'Express', 'Tailwind'],
-      features: ['Dynamic Contribution Tracking', 'Automated Penalty Engine', 'Flexible Member Management', 'Live Meeting & Attendance Analytics'],
-      github: 'https://github.com/kobe824-create/fdf_aside',
-      demo: null,
-      status: 'production',
-      year: '2024',
-      impact: 'Traditional savings groups often struggle with "ghost" members, disputed payment records, and the administrative headache of manually calculating fines and attendance. So we developed FDF Aside to act as a "Digital Secretary" for savings collectives.'
-    },
+  id: 1,
+  title: 'FDF Aside',
+  subtitle: 'Tontine (Ikibina)',
+  description: `FDF Aside is a comprehensive fintech solution designed to digitize the management of traditional savings groups (Ibimina). The platform transitions groups from manual, error-prone paper ledgers to a secure, real-time digital environment, ensuring financial transparency and member accountability.`,
+  collaborators: [
+    {
+      name: 'Jules Ntizimira',
+      github: 'https://github.com/Julesntizimira'
+    }
+  ],
+  challenge: 'Built a secure authentication system with role-based access control while ensuring transaction integrity and scalability for enterprise use.',
+  tech: ['React', 'Node.js', 'MongoDB', 'JWT', 'Express', 'Tailwind'],
+  features: [
+    'Dynamic Contribution Tracking',
+    'Automated Penalty Engine',
+    'Flexible Member Management',
+    'Live Meeting & Attendance Analytics'
+  ],
+  github: 'https://github.com/kobe824-create/fdf_aside',
+  demo: null,
+  status: 'production',
+  year: '2025',
+  impact: 'FDF Aside acts as a digital secretary for savings collectives.'
+},
+
     {
       id: 2,
       title: 'School Stock Management',
