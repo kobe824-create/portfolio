@@ -69,17 +69,17 @@ const Portfolio = () => {
   const projects = [
     {
       id: 1,
-      title: 'Corporate Payment System',
-      subtitle: 'Enterprise Financial Management',
-      description: 'A comprehensive platform for managing corporate payments including utilities, salaries, and taxes with full audit trails and multi-level approval workflows.',
+      title: 'FDF Aside',
+      subtitle: 'Tontine(Ikibina)',
+      description: `FDF Aside is a comprehensive fintech solution designed to digitize the management of traditional savings groups (Ibimina). The platform transitions groups from manual, error-prone paper ledgers to a secure, real-time digital environment, ensuring financial transparency and member accountability. FDF Aside was developed as a collaborative initiative. I worked alongside <a href ="https://github.com/Julesntizimira">Jules Ntizimira</a> to architect the system. We utilized version control (Git) to manage simultaneous feature updates, such as the Live Meeting Tracker and Member Management modules, ensuring a cohesive and bug-free final product.`,
       challenge: 'Built a secure authentication system with role-based access control while ensuring transaction integrity and scalability for enterprise use.',
-      tech: ['React', 'Node.js', 'PostgreSQL', 'JWT', 'Express', 'Tailwind'],
-      features: ['Multi-role authentication', 'Payment workflows', 'Audit logging', 'Transaction history'],
-      github: '#',
+      tech: ['React', 'Node.js', 'MongoDB', 'JWT', 'Express', 'Tailwind'],
+      features: ['Dynamic Contribution Tracking', 'Automated Penalty Engine', 'Flexible Member Management', 'Live Meeting & Attendance Analytics'],
+      github: 'https://github.com/kobe824-create/fdf_aside',
       demo: null,
       status: 'production',
       year: '2024',
-      impact: 'Streamlined payment processes for multiple departments'
+      impact: 'Traditional savings groups often struggle with "ghost" members, disputed payment records, and the administrative headache of manually calculating fines and attendance. So we developed FDF Aside to act as a "Digital Secretary" for savings collectives.'
     },
     {
       id: 2,
@@ -89,9 +89,9 @@ const Portfolio = () => {
       challenge: 'Designed a flexible approval system that accommodates different organizational hierarchies while maintaining data consistency.',
       tech: ['Vue.js', 'Node.js', 'MySQL', 'Express', 'Bootstrap'],
       features: ['Request management', 'Approval workflows', 'Stock tracking', 'Role-based access'],
-      github: '#',
+      github: 'https://github.com/kobe824-create/stock_managementWithReact',
       demo: null,
-      status: 'development',
+      status: 'production',
       year: '2024',
       impact: 'Reduced material request processing time by 60%'
     },
