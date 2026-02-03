@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Github, Mail, ExternalLink, Code2, Shield, Zap, Download, Menu, X, ArrowUpRight, CheckCircle2, FileCode, Database, Globe, Lock, Server, Terminal, Sparkles } from 'lucide-react';
+import { Github, Mail, ExternalLink, Code2, Shield, Download, Menu, X, ArrowUpRight, CheckCircle2, FileCode, Database, Globe, Server, Terminal, Moon, Sun } from 'lucide-react';
 
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [skillsInView, setSkillsInView] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const heroRef = useRef(null);
   const skillsRef = useRef(null);
 
@@ -24,7 +25,6 @@ const Portfolio = () => {
       });
       if (current) setActiveSection(current);
 
-      // Check if skills section is in view
       if (skillsRef.current) {
         const rect = skillsRef.current.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
@@ -34,38 +34,35 @@ const Portfolio = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const skills = {
     frontend: [
-      { name: 'JavaScript', level: 85, category: 'Language', color: 'from-black-400 to-gray-600' },
-      { name: 'React', level: 75, category: 'Framework', color: 'from-black-400 to-gray-600' },
-      { name: 'TypeScript', level: 45, category: 'Language', color: 'from-black-400 to-gray-600' },
-      { name: 'Tailwind CSS', level: 90, category: 'Styling', color: 'from-black-400 to-gray-600' },
-      { name: 'Vue.js', level: 50, category: 'Framework', color: 'from-black-400 to-gray-600' },
-      { name: 'HTML5 & CSS3', level: 95, category: 'Core', color: 'from-black-400 to-gray-600' }
+      { name: 'JavaScript', level: 85, category: 'Language' },
+      { name: 'React', level: 75, category: 'Framework' },
+      { name: 'TypeScript', level: 45, category: 'Language' },
+      { name: 'Tailwind CSS', level: 90, category: 'Styling' },
+      { name: 'Vue.js', level: 50, category: 'Framework' },
+      { name: 'HTML5 & CSS3', level: 95, category: 'Core' }
     ],
     backend: [
-      { name: 'Node.js', level: 75, category: 'Runtime', color: 'from-black-400 to-gray-600' },
-      { name: 'Express.js', level: 80, category: 'Framework', color: 'from-black-400 to-gray-600' },
-      { name: 'REST APIs', level: 85, category: 'Architecture', color: 'from-black-400 to-gray-600' },
-      { name: 'JWT Auth', level: 75, category: 'Security', color: 'from-black-400 to-gray-600' },
-      { name: 'PHP', level: 40, category: 'Language', color: 'from-black-400 to-gray-600' }
+      { name: 'Node.js', level: 75, category: 'Runtime' },
+      { name: 'Express.js', level: 80, category: 'Framework' },
+      { name: 'REST APIs', level: 85, category: 'Architecture' },
+      { name: 'JWT Auth', level: 75, category: 'Security' },
+      { name: 'PHP', level: 40, category: 'Language' }
     ],
     database: [
-      { name: 'MySQL', level: 75, category: 'Relational', color: 'from-black-400 to-gray-600' },
-      { name: 'PostgreSQL', level: 55, category: 'Relational', color: 'from-black-400 to-gray-600' },
-      { name: 'MongoDB', level: 50, category: 'NoSQL', color: 'from-black-400 to-gray-600' }
+      { name: 'MySQL', level: 75, category: 'Relational' },
+      { name: 'PostgreSQL', level: 55, category: 'Relational' },
+      { name: 'MongoDB', level: 50, category: 'NoSQL' }
     ],
     tools: [
-      { name: 'Git & GitHub', level: 85, category: 'Version Control', color: 'from-gray-400 to-black-600' },
-      { name: 'Linux', level: 70, category: 'OS', color: 'from-black-400 to-gray-600' },
-      { name: 'VS Code', level: 90, category: 'Editor', color: 'from-black-400 to-gray-600' },
-      { name: 'Postman', level: 80, category: 'Testing', color: 'from-black-400 to-gray-600' }
+      { name: 'Git & GitHub', level: 85, category: 'Version Control' },
+      { name: 'Linux', level: 70, category: 'OS' },
+      { name: 'VS Code', level: 90, category: 'Editor' },
+      { name: 'Postman', level: 80, category: 'Testing' }
     ]
   };
 
@@ -87,8 +84,7 @@ const Portfolio = () => {
       demo: null,
       status: 'production',
       year: '2025',
-      impact: 'FDF Aside acts as a digital secretary for savings collectives.',
-      gradient: 'from-black-500 to-gray-500'
+      impact: 'FDF Aside acts as a digital secretary for savings collectives.'
     },
     {
       id: 2,
@@ -102,8 +98,7 @@ const Portfolio = () => {
       demo: null,
       status: 'production',
       year: '2024',
-      impact: 'Reduced material request processing time by 60%',
-      gradient: 'from-black-500 to-gray-500'
+      impact: 'Reduced material request processing time by 60%'
     },
     {
       id: 3,
@@ -117,22 +112,21 @@ const Portfolio = () => {
       demo: null,
       status: 'production',
       year: '2024',
-      impact: 'Zero fraudulent transactions since implementation',
-      gradient: 'from-black-500 to-gray-500'
+      impact: 'Zero fraudulent transactions since implementation'
     }
   ];
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="bg-white text-slate-900 font-sans antialiased">
+    <div className={`${darkMode ? 'bg-neutral-900 text-neutral-100' : 'bg-white text-neutral-900'} font-sans antialiased transition-colors duration-300`}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
         
         * {
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-        
-        h1, h2, h3, h4 {
-          font-family: 'Space Grotesk', sans-serif;
         }
 
         code, .mono {
@@ -154,17 +148,8 @@ const Portfolio = () => {
           }
         }
 
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
         .animate-fade-in-up {
           animation: fadeInUp 0.8s ease-out forwards;
-        }
-
-        .animate-fade-in {
-          animation: fadeIn 0.6s ease-out forwards;
         }
 
         .stagger-1 { animation-delay: 0.1s; }
@@ -174,95 +159,35 @@ const Portfolio = () => {
 
         .nav-link {
           position: relative;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
         }
 
-        .nav-link::before {
+        .nav-link::after {
           content: '';
           position: absolute;
           bottom: -2px;
-          left: 50%;
-          transform: translateX(-50%);
+          left: 0;
           width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #0f172a, #334155);
-          transition: width 0.3s ease;
+          height: 1px;
+          background: currentColor;
+          transition: width 0.2s ease;
         }
 
-        .nav-link:hover::before,
-        .nav-link.active::before {
+        .nav-link:hover::after,
+        .nav-link.active::after {
           width: 100%;
         }
 
-        .profile-image-container {
-          position: relative;
-        }
-
-        .profile-image {
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .profile-image:hover {
-          transform: scale(1.02) rotate(-1deg);
-        }
-
         .project-card {
-          position: relative;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
         }
 
         .project-card:hover {
-          transform: translateY(-4px);
-        }
-
-        .project-card::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 1rem;
-          padding: 2px;
-          background: linear-gradient(135deg, transparent, transparent);
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .project-card:hover::before {
-          opacity: 1;
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-        }
-
-        .gradient-border {
-          position: relative;
-          background: white;
-          border-radius: 1rem;
-        }
-
-        .gradient-border::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 1rem;
-          padding: 1px;
-          background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-        }
-
-        .text-gradient {
-          background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
+          transform: translateY(-2px);
         }
 
         @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
+          *, *::before, *::after {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
             transition-duration: 0.01ms !important;
@@ -271,26 +196,31 @@ const Portfolio = () => {
       `}</style>
 
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled ? 'bg-white/95 backdrop-blur-lg shadow-lg shadow-slate-200/50' : 'bg-white'}`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            <a href="#home" className="group flex items-center gap-2">
-              <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-slate-700 rounded-lg blur-sm group-hover:blur-md transition-all"></div>
-                <div className="relative px-3 py-1.5 bg-slate-900 text-white text-base font-bold rounded-lg">IH</div>
-              </div>
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        isScrolled 
+          ? darkMode 
+            ? 'bg-neutral-900/95 backdrop-blur-sm border-b border-neutral-800' 
+            : 'bg-white/95 backdrop-blur-sm border-b border-neutral-200'
+          : darkMode
+            ? 'bg-neutral-900'
+            : 'bg-white'
+      }`}>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="flex items-center justify-between h-16">
+            <a href="#home" className="text-lg font-semibold tracking-tight">
+              IH
             </a>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-10">
+            <div className="hidden md:flex items-center gap-8">
               {['About', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
-                  className={`nav-link text-sm font-semibold tracking-wide ${
+                  className={`nav-link text-sm font-medium ${
                     activeSection === item.toLowerCase() 
-                      ? 'active text-slate-900' 
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? darkMode ? 'text-white' : 'text-black'
+                      : darkMode ? 'text-neutral-400 hover:text-neutral-200' : 'text-neutral-600 hover:text-neutral-900'
                   }`}
                 >
                   <span className="mono text-xs text-slate-400 mr-1">{String(idx + 1).padStart(2, '0')}</span>
@@ -300,19 +230,35 @@ const Portfolio = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-4">
+              <button
+                onClick={toggleDarkMode}
+                className={`p-2 rounded-md ${
+                  darkMode 
+                    ? 'hover:bg-neutral-800 text-neutral-400 hover:text-neutral-200' 
+                    : 'hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900'
+                }`}
+                aria-label="Toggle dark mode"
+              >
+                {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
               <a
                 href="mailto:iradukunda1happy1@gmail.com"
-                className="group relative px-6 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg overflow-hidden transition-all hover:shadow-lg hover:shadow-slate-900/30"
+                className={`px-5 py-2 text-sm font-medium rounded-md transition-colors ${
+                  darkMode
+                    ? 'bg-white text-black hover:bg-neutral-200'
+                    : 'bg-black text-white hover:bg-neutral-800'
+                }`}
               >
-                <span className="relative z-10">Get in Touch</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-slate-900 to-slate-700 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                Contact
               </a>
             </div>
 
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2.5 rounded-lg hover:bg-slate-100 transition-all"
+              className={`md:hidden p-2 rounded-md ${
+                darkMode ? 'hover:bg-neutral-800' : 'hover:bg-neutral-100'
+              }`}
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -321,98 +267,109 @@ const Portfolio = () => {
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-200 shadow-lg">
-            <div className="px-6 py-6 space-y-4">
-              {['About', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
+          <div className={`md:hidden ${darkMode ? 'bg-neutral-900 border-t border-neutral-800' : 'bg-white border-t border-neutral-200'}`}>
+            <div className="px-6 py-4 space-y-3">
+              {['About', 'Skills', 'Projects', 'Contact'].map((item) => (
                 <a
                   key={item}
                   href={`#${item.toLowerCase()}`}
                   onClick={() => setMenuOpen(false)}
-                  className="block text-slate-900 font-semibold py-3 hover:translate-x-2 transition-transform"
+                  className={`block py-2 text-sm font-medium ${
+                    darkMode ? 'text-neutral-300 hover:text-white' : 'text-neutral-700 hover:text-black'
+                  }`}
                 >
-                  <span className="mono text-xs text-slate-400 mr-2">{String(idx + 1).padStart(2, '0')}</span>
                   {item}
                 </a>
               ))}
-              <a
-                href="mailto:iradukunda1happy1@gmail.com"
-                className="block w-full px-6 py-3 bg-slate-900 text-white text-sm font-semibold rounded-lg text-center hover:bg-slate-800 transition-colors"
+              <button
+                onClick={toggleDarkMode}
+                className={`flex items-center gap-2 py-2 text-sm font-medium ${
+                  darkMode ? 'text-neutral-300 hover:text-white' : 'text-neutral-700 hover:text-black'
+                }`}
               >
-                Get in Touch
-              </a>
+                {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {darkMode ? 'Light Mode' : 'Dark Mode'}
+              </button>
             </div>
           </div>
         )}
       </nav>
 
       {/* Hero Section */}
-      <section id="home" ref={heroRef} className="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/4 -left-48 w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse"></div>
-          <div className="absolute top-1/3 -right-48 w-96 h-96 bg-purple-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse" style={{animationDelay: '2s'}}></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto w-full">
+      <section id="home" ref={heroRef} className="min-h-screen flex items-center justify-center px-6 pt-20">
+        <div className="max-w-6xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left side - Text content */}
-            <div className="space-y-8 opacity-0 animate-fade-in-up">
-              <div className="space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full border border-slate-200">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span className="text-sm font-medium text-slate-700">Available for opportunities</span>
+            <div className="space-y-6 opacity-0 animate-fade-in-up">
+              <div className="space-y-4">
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium ${
+                  darkMode ? 'bg-neutral-800 text-neutral-300' : 'bg-neutral-100 text-neutral-700'
+                }`}>
+                  <div className="w-1.5 h-1.5 bg-neutral-500 rounded-full"></div>
+                  Available for opportunities
                 </div>
                 
-                <div className="space-y-3">
-                  <p className="text-slate-600 font-medium text-lg">Hi, I'm</p>
-                  <h1 className="text-6xl lg:text-7xl font-bold tracking-tight">
-                    <span className="text-gradient">Iradukunda</span><br/>
-                    <span className="text-slate-900">Happy</span>
-                  </h1>
-                  <div className="flex items-center gap-3">
-                    <div className="h-1 w-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-                    <p className="text-2xl lg:text-3xl font-bold text-slate-600">
-                      Full-Stack Developer
-                    </p>
-                  </div>
-                </div>
+                <h1 className="text-5xl lg:text-6xl font-bold tracking-tight">
+                  Iradukunda Happy
+                </h1>
+                <p className="text-xl lg:text-2xl font-medium text-neutral-500">
+                  Full-Stack Developer
+                </p>
               </div>
 
-              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
-                I craft secure, scalable web applications with a focus on clean architecture and ethical technology. 
-                <span className="text-slate-900 font-medium"> Based in Rwanda</span>, building meaningful solutions that make a difference.
+              <p className={`text-base leading-relaxed max-w-lg ${
+                darkMode ? 'text-neutral-400' : 'text-neutral-600'
+              }`}>
+                Building secure, scalable web applications with clean architecture. 
+                Based in Rwanda, focused on creating meaningful solutions through code.
               </p>
 
-              <div className="flex flex-wrap gap-4 pt-4">
+              <div className="flex flex-wrap gap-3 pt-4">
                 <a
                   href="#projects"
-                  className="group inline-flex items-center gap-2 px-7 py-3.5 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-all hover:gap-3 hover:shadow-xl hover:shadow-slate-900/30"
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-md transition-all ${
+                    darkMode
+                      ? 'bg-white text-black hover:bg-neutral-200'
+                      : 'bg-black text-white hover:bg-neutral-800'
+                  }`}
                 >
                   View Projects
-                  <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
+                  <ArrowUpRight className="w-4 h-4" />
                 </a>
                 <a
                   href="#"
-                  className="group inline-flex items-center gap-2 px-7 py-3.5 border-2 border-slate-200 text-slate-900 font-semibold rounded-lg hover:border-slate-900 hover:bg-slate-50 transition-all"
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-md transition-all ${
+                    darkMode
+                      ? 'border border-neutral-700 hover:border-neutral-600 hover:bg-neutral-800'
+                      : 'border border-neutral-300 hover:border-neutral-400 hover:bg-neutral-50'
+                  }`}
                 >
                   <Download className="w-4 h-4" />
                   Resume
                 </a>
               </div>
 
-              <div className="flex items-center gap-6 pt-6">
+              <div className="flex items-center gap-4 pt-4">
                 <a
                   href="https://github.com/kobe824-create"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-3 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all hover:scale-110"
+                  className={`p-2 rounded-md transition-colors ${
+                    darkMode 
+                      ? 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'
+                      : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                  }`}
                   aria-label="GitHub"
                 >
                   <Github className="w-5 h-5" />
                 </a>
                 <a
                   href="mailto:iradukunda1happy1@gmail.com"
-                  className="p-3 rounded-lg bg-slate-50 text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all hover:scale-110"
+                  className={`p-2 rounded-md transition-colors ${
+                    darkMode 
+                      ? 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'
+                      : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                  }`}
                   aria-label="Email"
                 >
                   <Mail className="w-5 h-5" />
@@ -422,26 +379,19 @@ const Portfolio = () => {
 
             {/* Right side - Profile image */}
             <div className="flex justify-center lg:justify-end opacity-0 animate-fade-in-up stagger-2">
-              <div className="profile-image-container">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-3xl transform rotate-6 opacity-20 blur-2xl"></div>
-                <div className="absolute -inset-4 bg-gradient-to-br from-blue-500 to-purple-500 rounded-3xl transform rotate-3 opacity-10"></div>
-                <div className="relative">
-                  <img 
-                    src="/My_image.jpeg" 
-                    alt="Iradukunda Happy"
-                    className="profile-image relative w-80 h-80 lg:w-[28rem] lg:h-[28rem] object-cover rounded-3xl shadow-2xl border-4 border-white"
-                  />
-                  <div className="absolute -bottom-6 -right-6 px-6 py-4 bg-white rounded-2xl shadow-xl border border-slate-200">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-emerald-500 rounded-xl flex items-center justify-center">
-                        <Sparkles className="w-6 h-6 text-white" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-slate-900">3+ Years</p>
-                        <p className="text-xs text-slate-600">Experience</p>
-                      </div>
-                    </div>
-                  </div>
+              <div className="relative">
+                <img 
+                  src="/My_image.jpeg" 
+                  alt="Iradukunda Happy"
+                  className={`w-80 h-80 lg:w-96 lg:h-96 object-cover rounded-2xl ${
+                    darkMode ? 'border border-neutral-800' : 'border border-neutral-200'
+                  }`}
+                />
+                <div className={`absolute -bottom-4 -right-4 px-4 py-3 rounded-xl ${
+                  darkMode ? 'bg-neutral-800 border border-neutral-700' : 'bg-white border border-neutral-200'
+                }`}>
+                  <p className="text-sm font-semibold">3+ Years</p>
+                  <p className={`text-xs ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>Experience</p>
                 </div>
               </div>
             </div>
@@ -450,95 +400,107 @@ const Portfolio = () => {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-32 px-6 bg-gradient-to-b from-white to-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-12 items-start">
-            <div className="lg:col-span-7 space-y-8">
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-50 rounded-full">
-                  <span className="mono text-xs font-semibold text-blue-600">01</span>
-                  <span className="text-sm font-semibold text-blue-900 uppercase tracking-wider">About Me</span>
-                </div>
-                <h2 className="text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
-                  Building with<br/>
-                  <span className="text-gradient">Purpose & Precision</span>
+      <section id="about" className={`py-24 px-6 ${darkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-12 gap-12">
+            <div className="lg:col-span-7 space-y-6">
+              <div className="space-y-3">
+                <p className={`text-xs font-semibold tracking-wider uppercase ${
+                  darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                }`}>
+                  About Me
+                </p>
+                <h2 className="text-4xl lg:text-5xl font-bold">
+                  Building with Purpose
                 </h2>
               </div>
 
-              <div className="space-y-6 text-slate-600 leading-relaxed text-lg">
+              <div className={`space-y-4 leading-relaxed ${
+                darkMode ? 'text-neutral-400' : 'text-neutral-600'
+              }`}>
                 <p>
                   My journey into software development began with curiosity about how technology shapes our world. 
-                  That curiosity evolved into a <span className="text-slate-900 font-semibold">disciplined commitment</span> to 
-                  building applications that are not only functional but also secure, ethical, and maintainable.
+                  That curiosity evolved into a disciplined commitment to building applications that are functional, 
+                  secure, and maintainable.
                 </p>
                 <p>
                   As a student developer from Rwanda, I've focused on mastering full-stack development with particular 
-                  attention to <span className="text-slate-900 font-semibold">authentication systems, payment workflows, and clean architecture</span>. 
-                  I approach each project with a security-first mindset.
+                  attention to authentication systems, payment workflows, and clean architecture. I approach each 
+                  project with a security-first mindset.
                 </p>
                 <p>
-                  Beyond writing code, I'm committed to ethical technology development. As a Muslim developer, I believe in 
-                  building solutions that respect user privacy, protect data, and serve genuine human needs.
+                  Beyond writing code, I'm committed to ethical technology development, building solutions that 
+                  respect user privacy and serve genuine human needs.
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-6 pt-4">
-                <div className="group p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 transition-all hover:shadow-lg">
-                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Shield className="w-6 h-6 text-blue-600" />
-                  </div>
-                  <h3 className="font-bold text-slate-900 mb-2">Security First</h3>
-                  <p className="text-sm text-slate-600">JWT, bcrypt, OWASP practices</p>
+              <div className="grid sm:grid-cols-2 gap-4 pt-4">
+                <div className={`p-5 rounded-xl ${
+                  darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-white border border-neutral-200'
+                }`}>
+                  <Shield className="w-8 h-8 mb-3" />
+                  <h3 className="font-semibold mb-1">Security First</h3>
+                  <p className={`text-sm ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                    JWT, bcrypt, OWASP practices
+                  </p>
                 </div>
 
-                <div className="group p-6 bg-white rounded-2xl border border-slate-200 hover:border-slate-300 transition-all hover:shadow-lg">
-                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Code2 className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <h3 className="font-bold text-slate-900 mb-2">Clean Architecture</h3>
-                  <p className="text-sm text-slate-600">Scalable, maintainable code</p>
+                <div className={`p-5 rounded-xl ${
+                  darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-white border border-neutral-200'
+                }`}>
+                  <Code2 className="w-8 h-8 mb-3" />
+                  <h3 className="font-semibold mb-1">Clean Code</h3>
+                  <p className={`text-sm ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                    Scalable, maintainable architecture
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-5 space-y-6">
-              <div className="gradient-border p-8">
-                <h3 className="font-bold text-slate-900 mb-6 text-xl flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-yellow-500" />
-                  Quick Facts
-                </h3>
-                <div className="space-y-5">
+            <div className="lg:col-span-5 space-y-4">
+              <div className={`p-6 rounded-xl ${
+                darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-white border border-neutral-200'
+              }`}>
+                <h3 className="font-semibold mb-4">Quick Facts</h3>
+                <div className="space-y-3">
                   <div>
-                    <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Location</p>
-                    <p className="text-base font-semibold text-slate-900">Kigali, Rwanda</p>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>Location</p>
+                    <p className="text-sm font-medium">Kigali, Rwanda</p>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Experience</p>
-                    <p className="text-base font-semibold text-slate-900">3+ Years Coding</p>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>Experience</p>
+                    <p className="text-sm font-medium">3+ Years Coding</p>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Focus</p>
-                    <p className="text-base font-semibold text-slate-900">Full-Stack Development</p>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>Focus</p>
+                    <p className="text-sm font-medium">Full-Stack Development</p>
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-1">Availability</p>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>Availability</p>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                      <p className="text-base font-semibold text-slate-900">Open to opportunities</p>
+                      <div className="w-1.5 h-1.5 bg-neutral-500 rounded-full"></div>
+                      <p className="text-sm font-medium">Open to opportunities</p>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="relative p-8 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-20"></div>
-                <div className="relative">
-                  <Globe className="w-8 h-8 text-white mb-4" />
-                  <h3 className="font-bold text-white text-xl mb-3">Remote Ready</h3>
-                  <p className="text-slate-300 leading-relaxed">
-                    Open to internships and junior developer roles worldwide. Let's build something amazing together.
-                  </p>
-                </div>
+              <div className={`p-6 rounded-xl ${
+                darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-black text-white'
+              }`}>
+                <Globe className="w-6 h-6 mb-3" />
+                <h3 className="font-semibold mb-2">Remote Ready</h3>
+                <p className={`text-sm ${darkMode ? 'text-neutral-400' : 'text-neutral-300'}`}>
+                  Open to internships and junior developer roles worldwide.
+                </p>
               </div>
             </div>
           </div>
@@ -546,56 +508,62 @@ const Portfolio = () => {
       </section>
 
       {/* Skills Section */}
-      <section id="skills" ref={skillsRef} className="py-32 px-6 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-purple-50 rounded-full">
-              <span className="mono text-xs font-semibold text-purple-600">02</span>
-              <span className="text-sm font-semibold text-purple-900 uppercase tracking-wider">Technical Expertise</span>
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-bold text-slate-900">
-              Skills & <span className="text-gradient">Technologies</span>
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Proficiency levels based on hands-on project experience and continuous learning
+      <section id="skills" ref={skillsRef} className="py-24 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 space-y-3">
+            <p className={`text-xs font-semibold tracking-wider uppercase ${
+              darkMode ? 'text-neutral-500' : 'text-neutral-500'
+            }`}>
+              Technical Expertise
             </p>
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              Skills & Technologies
+            </h2>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 mb-12">
+          <div className="grid lg:grid-cols-2 gap-6 mb-8">
             {Object.entries(skills).map(([category, items], catIdx) => (
               <div 
                 key={category} 
-                className="group p-8 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-all hover:shadow-xl opacity-0 animate-fade-in-up"
+                className={`p-6 rounded-xl opacity-0 animate-fade-in-up ${
+                  darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-neutral-50 border border-neutral-200'
+                }`}
                 style={{animationDelay: `${catIdx * 0.1}s`}}
               >
-                <h3 className="text-2xl font-bold text-slate-900 mb-8 capitalize flex items-center gap-3">
-                  {category === 'frontend' && <Code2 className="w-6 h-6 text-blue-600" />}
-                  {category === 'backend' && <Server className="w-6 h-6 text-green-600" />}
-                  {category === 'database' && <Database className="w-6 h-6 text-purple-600" />}
-                  {category === 'tools' && <Terminal className="w-6 h-6 text-orange-600" />}
+                <h3 className="text-lg font-semibold mb-6 capitalize flex items-center gap-2">
+                  {category === 'frontend' && <Code2 className="w-5 h-5" />}
+                  {category === 'backend' && <Server className="w-5 h-5" />}
+                  {category === 'database' && <Database className="w-5 h-5" />}
+                  {category === 'tools' && <Terminal className="w-5 h-5" />}
                   {category}
                 </h3>
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {items.map((skill, idx) => (
-                    <div key={idx} className="group/skill">
+                    <div key={idx}>
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-slate-900">{skill.name}</span>
-                          <span className="text-xs px-2 py-0.5 bg-white rounded text-slate-500 border border-slate-200">
+                          <span className="text-sm font-medium">{skill.name}</span>
+                          <span className={`text-xs px-2 py-0.5 rounded ${
+                            darkMode 
+                              ? 'bg-neutral-800 text-neutral-400 border border-neutral-700'
+                              : 'bg-white text-neutral-600 border border-neutral-200'
+                          }`}>
                             {skill.category}
                           </span>
                         </div>
-                        <span className="mono text-sm font-bold text-slate-600 group-hover/skill:text-slate-900 transition-colors">
+                        <span className="mono text-xs font-medium text-neutral-500">
                           {skill.level}%
                         </span>
                       </div>
-                      <div className="relative w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+                      <div className={`w-full h-1.5 rounded-full overflow-hidden ${
+                        darkMode ? 'bg-neutral-800' : 'bg-neutral-200'
+                      }`}>
                         <div
-                          className={`skill-bar-animated h-full bg-gradient-to-r ${skill.color} rounded-full relative`}
+                          className={`skill-bar-animated h-full rounded-full ${
+                            darkMode ? 'bg-white' : 'bg-black'
+                          }`}
                           style={{ width: skillsInView ? `${skill.level}%` : '0%' }}
-                        >
-                          <div className="absolute inset-0 bg-white/20"></div>
-                        </div>
+                        />
                       </div>
                     </div>
                   ))}
@@ -604,21 +572,26 @@ const Portfolio = () => {
             ))}
           </div>
 
-          <div className="relative p-8 bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl border border-blue-100 overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200 rounded-full filter blur-3xl opacity-30"></div>
-            <div className="relative flex items-start gap-6">
-              <div className="p-4 bg-white rounded-2xl shadow-lg">
-                <Lock className="w-8 h-8 text-slate-900" />
+          <div className={`p-6 rounded-xl ${
+            darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-neutral-50 border border-neutral-200'
+          }`}>
+            <div className="flex items-start gap-4">
+              <div className={`p-3 rounded-lg ${darkMode ? 'bg-neutral-800' : 'bg-white'}`}>
+                <Shield className="w-6 h-6" />
               </div>
               <div className="flex-1">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">Security Specialization</h3>
-                <p className="text-slate-700 mb-6 leading-relaxed text-lg">
-                  Deep expertise in web application security, including JWT authentication, password encryption with bcrypt, 
-                  comprehensive input validation, and strict adherence to OWASP Top 10 security best practices.
+                <h3 className="text-lg font-semibold mb-2">Security Specialization</h3>
+                <p className={`mb-4 ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                  Deep expertise in web application security, including JWT authentication, bcrypt hashing, 
+                  input validation, and OWASP best practices.
                 </p>
-                <div className="flex flex-wrap gap-3">
-                  {['JWT Authentication', 'bcrypt Hashing', 'OWASP Top 10', 'Input Validation', 'CORS Policy', 'XSS Prevention', 'SQL Injection Prevention'].map((item) => (
-                    <span key={item} className="px-4 py-2 bg-white rounded-lg text-sm font-semibold text-slate-700 border border-slate-200 hover:border-slate-300 transition-all hover:shadow-md">
+                <div className="flex flex-wrap gap-2">
+                  {['JWT', 'bcrypt', 'OWASP', 'Input Validation', 'CORS', 'XSS Prevention'].map((item) => (
+                    <span key={item} className={`px-3 py-1.5 rounded-md text-xs font-medium ${
+                      darkMode 
+                        ? 'bg-neutral-800 text-neutral-300 border border-neutral-700'
+                        : 'bg-white text-neutral-700 border border-neutral-200'
+                    }`}>
                       {item}
                     </span>
                   ))}
@@ -630,238 +603,292 @@ const Portfolio = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-32 px-6 bg-gradient-to-b from-white to-slate-50">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20 space-y-4">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-green-50 rounded-full">
-              <span className="mono text-xs font-semibold text-green-600">03</span>
-              <span className="text-sm font-semibold text-green-900 uppercase tracking-wider">Featured Work</span>
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-bold text-slate-900">
-              Recent <span className="text-gradient">Projects</span>
-            </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Real-world applications built with modern tech stacks and security-first principles
+      <section id="projects" className={`py-24 px-6 ${darkMode ? 'bg-neutral-950' : 'bg-neutral-50'}`}>
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-12 space-y-3">
+            <p className={`text-xs font-semibold tracking-wider uppercase ${
+              darkMode ? 'text-neutral-500' : 'text-neutral-500'
+            }`}>
+              Featured Work
             </p>
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              Recent Projects
+            </h2>
           </div>
 
-          <div className="space-y-12">
+          <div className="space-y-8">
             {projects.map((project, idx) => (
               <div
                 key={project.id}
-                className="project-card group bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-slate-300 shadow-lg hover:shadow-2xl opacity-0 animate-fade-in-up"
-                style={{animationDelay: `${idx * 0.15}s`}}
+                className={`project-card p-8 rounded-xl opacity-0 animate-fade-in-up ${
+                  darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-white border border-neutral-200'
+                }`}
+                style={{animationDelay: `${idx * 0.1}s`}}
               >
-                <div className="p-10">
-                  <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Project Number & Gradient */}
-                    <div className="lg:w-24 flex lg:flex-col items-center lg:items-start gap-4">
-                      <div className="mono text-6xl font-bold text-slate-200 group-hover:text-slate-300 transition-colors">
-                        {String(idx + 1).padStart(2, '0')}
-                      </div>
-                      <div className={`hidden lg:block w-1 flex-1 min-h-32 bg-gradient-to-b ${project.gradient} rounded-full`}></div>
-                    </div>
-
-                    {/* Project Content */}
-                    <div className="flex-1 space-y-6">
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <span className="mono text-xs font-semibold text-slate-500">{project.year}</span>
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            project.status === 'production' 
-                              ? 'bg-green-100 text-green-700 border border-green-200' 
-                              : 'bg-yellow-100 text-yellow-700 border border-yellow-200'
-                          }`}>
-                            {project.status === 'production' ? (
-                              <span className="flex items-center gap-1.5">
-                                <CheckCircle2 className="w-3 h-3" /> Production
-                              </span>
-                            ) : 'In Development'}
-                          </span>
-                        </div>
-                        
-                        <h3 className="text-4xl font-bold text-slate-900 group-hover:text-gradient transition-all">
-                          {project.title}
-                        </h3>
-                        <p className="text-xl font-semibold text-slate-600">{project.subtitle}</p>
-                      </div>
-
-                      <p className="text-slate-600 leading-relaxed text-lg">
-                        {project.description}
-                      </p>
-
-                      <div className="p-6 bg-slate-50 rounded-xl border-l-4 border-slate-900">
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Technical Challenge</p>
-                        <p className="text-slate-700 leading-relaxed">{project.challenge}</p>
-                      </div>
-
-                      <div>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Key Features</p>
-                        <div className="grid sm:grid-cols-2 gap-3">
-                          {project.features.map((feature, i) => (
-                            <div key={i} className="flex items-center gap-3 text-slate-700">
-                              <div className="w-5 h-5 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <CheckCircle2 className="w-3 h-3 text-green-600" />
-                              </div>
-                              <span className="font-medium">{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div>
-                        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Tech Stack</p>
-                        <div className="flex flex-wrap gap-2">
-                          {project.tech.map((tech) => (
-                            <span key={tech} className="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold border border-slate-200 hover:border-slate-300 transition-all">
-                              {tech}
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3 flex-wrap">
+                        <span className="mono text-xs text-neutral-500">{project.year}</span>
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${
+                          project.status === 'production' 
+                            ? darkMode 
+                              ? 'bg-neutral-800 text-neutral-300 border border-neutral-700'
+                              : 'bg-neutral-100 text-neutral-700 border border-neutral-200'
+                            : darkMode
+                              ? 'bg-neutral-800 text-neutral-400'
+                              : 'bg-neutral-100 text-neutral-600'
+                        }`}>
+                          {project.status === 'production' ? (
+                            <span className="flex items-center gap-1">
+                              <CheckCircle2 className="w-3 h-3" /> Production
                             </span>
-                          ))}
-                        </div>
+                          ) : 'In Development'}
+                        </span>
                       </div>
-
-                      {project.impact && (
-                        <div className="p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
-                          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Impact</p>
-                          <p className="text-slate-900 font-semibold text-lg">{project.impact}</p>
-                        </div>
-                      )}
-
-                      <div className="flex gap-4 pt-4">
-                        <a
-                          href={project.github}
-                          className="group/link inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-all hover:gap-3 hover:shadow-xl"
-                        >
-                          <FileCode className="w-5 h-5" />
-                          View Code
-                          <ArrowUpRight className="w-4 h-4 group-hover/link:rotate-45 transition-transform" />
-                        </a>
-                        {project.demo && (
-                          <a
-                            href={project.demo}
-                            className="group/link inline-flex items-center gap-2 px-6 py-3 border-2 border-slate-200 text-slate-900 font-semibold rounded-lg hover:border-slate-900 hover:bg-slate-50 transition-all"
-                          >
-                            <ExternalLink className="w-5 h-5" />
-                            Live Demo
-                          </a>
-                        )}
-                      </div>
+                      
+                      <h3 className="text-2xl font-bold">
+                        {project.title}
+                      </h3>
+                      <p className={`text-sm font-medium ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                        {project.subtitle}
+                      </p>
                     </div>
+                  </div>
+
+                  <p className={darkMode ? 'text-neutral-400' : 'text-neutral-600'}>
+                    {project.description}
+                  </p>
+
+                  <div className={`p-4 rounded-lg border-l-2 ${
+                    darkMode 
+                      ? 'bg-neutral-800 border-neutral-600'
+                      : 'bg-neutral-50 border-neutral-400'
+                  }`}>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>
+                      Technical Challenge
+                    </p>
+                    <p className={`text-sm ${darkMode ? 'text-neutral-400' : 'text-neutral-700'}`}>
+                      {project.challenge}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-3 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>
+                      Key Features
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2">
+                      {project.features.map((feature, i) => (
+                        <div key={i} className="flex items-center gap-2 text-sm">
+                          <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${
+                            darkMode ? 'text-neutral-400' : 'text-neutral-600'
+                          }`} />
+                          <span>{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className={`text-xs font-medium uppercase tracking-wide mb-3 ${
+                      darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                    }`}>
+                      Tech Stack
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tech.map((tech) => (
+                        <span key={tech} className={`px-3 py-1 rounded-md text-xs font-medium ${
+                          darkMode 
+                            ? 'bg-neutral-800 text-neutral-300 border border-neutral-700'
+                            : 'bg-neutral-100 text-neutral-700 border border-neutral-200'
+                        }`}>
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {project.impact && (
+                    <div className={`p-4 rounded-lg ${
+                      darkMode ? 'bg-neutral-800' : 'bg-neutral-100'
+                    }`}>
+                      <p className={`text-xs font-medium uppercase tracking-wide mb-1 ${
+                        darkMode ? 'text-neutral-500' : 'text-neutral-500'
+                      }`}>
+                        Impact
+                      </p>
+                      <p className="text-sm font-medium">{project.impact}</p>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-2">
+                    <a
+                      href={project.github}
+                      className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                        darkMode
+                          ? 'bg-white text-black hover:bg-neutral-200'
+                          : 'bg-black text-white hover:bg-neutral-800'
+                      }`}
+                    >
+                      <FileCode className="w-4 h-4" />
+                      View Code
+                    </a>
+                    {project.demo && (
+                      <a
+                        href={project.demo}
+                        className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-all ${
+                          darkMode
+                            ? 'border border-neutral-700 hover:bg-neutral-800'
+                            : 'border border-neutral-300 hover:bg-neutral-50'
+                        }`}
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                        Live Demo
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-16 text-center">
+          <div className="mt-12 text-center">
             <a
               href="https://github.com/kobe824-create"
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-3 px-8 py-4 border-2 border-slate-300 text-slate-900 font-bold rounded-xl hover:border-slate-900 hover:bg-slate-50 transition-all hover:shadow-xl text-lg"
+              className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-medium rounded-md transition-all ${
+                darkMode
+                  ? 'border border-neutral-700 hover:bg-neutral-800'
+                  : 'border border-neutral-300 hover:bg-neutral-50'
+              }`}
             >
-              <Github className="w-6 h-6" />
-              Explore More on GitHub
-              <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
+              <Github className="w-5 h-5" />
+              More on GitHub
             </a>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 bg-white">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center space-y-6 mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-50 rounded-full">
-              <span className="mono text-xs font-semibold text-orange-600">04</span>
-              <span className="text-sm font-semibold text-orange-900 uppercase tracking-wider">Get In Touch</span>
-            </div>
-            <h2 className="text-5xl lg:text-6xl font-bold text-slate-900">
-              Let's Build<br/>
-              <span className="text-gradient">Something Great</span>
+      <section id="contact" className="py-24 px-6">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center space-y-4 mb-12">
+            <p className={`text-xs font-semibold tracking-wider uppercase ${
+              darkMode ? 'text-neutral-500' : 'text-neutral-500'
+            }`}>
+              Get In Touch
+            </p>
+            <h2 className="text-4xl lg:text-5xl font-bold">
+              Let's Work Together
             </h2>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              I'm actively seeking internship and junior developer opportunities where I can contribute 
-              to meaningful projects while growing my skills. Let's connect!
+            <p className={`max-w-2xl mx-auto ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+              I'm actively seeking internship and junior developer opportunities. 
+              Let's connect and build something great.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-6 mb-12">
+          <div className="grid sm:grid-cols-3 gap-4 mb-8">
             {[
-              { icon: Mail, title: 'Email', value: 'iradukunda1happy1@gmail.com', link: 'mailto:iradukunda1happy1@gmail.com', color: 'from-blue-500 to-gray-500' },
-              { icon: Github, title: 'GitHub', value: '@kobe824-create', link: 'https://github.com/kobe824-create', color: 'from-purple-500 to-pink-500' },
-              { icon: Globe, title: 'Location', value: 'Kigali, Rwanda', link: null, color: 'from-green-500 to-emerald-500' }
+              { icon: Mail, title: 'Email', value: 'iradukunda1happy1@gmail.com', link: 'mailto:iradukunda1happy1@gmail.com' },
+              { icon: Github, title: 'GitHub', value: '@kobe824-create', link: 'https://github.com/kobe824-create' },
+              { icon: Globe, title: 'Location', value: 'Kigali, Rwanda', link: null }
             ].map((contact, idx) => (
               <a
                 key={idx}
                 href={contact.link || '#'}
                 target={contact.link?.startsWith('http') ? '_blank' : undefined}
                 rel={contact.link?.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className={`group p-8 gradient-border text-center hover:shadow-xl transition-all ${contact.link ? 'cursor-pointer' : 'cursor-default'}`}
+                className={`p-6 rounded-xl text-center transition-all ${
+                  darkMode 
+                    ? 'bg-neutral-900 border border-neutral-800 hover:border-neutral-700'
+                    : 'bg-neutral-50 border border-neutral-200 hover:border-neutral-300'
+                } ${contact.link ? 'cursor-pointer' : 'cursor-default'}`}
               >
-                <div className={`w-14 h-14 bg-gradient-to-br ${contact.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg`}>
-                  <contact.icon className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="font-bold text-slate-900 mb-2 text-lg">{contact.title}</h3>
-                <p className="text-sm text-slate-600 break-all">{contact.value}</p>
+                <contact.icon className="w-8 h-8 mx-auto mb-3" />
+                <h3 className="font-semibold mb-1">{contact.title}</h3>
+                <p className={`text-xs break-all ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                  {contact.value}
+                </p>
               </a>
             ))}
           </div>
 
-          <div className="relative p-12 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl overflow-hidden">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl opacity-10"></div>
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-purple-500 rounded-full filter blur-3xl opacity-10"></div>
-            
-            <div className="relative text-center space-y-6">
-              <h3 className="text-3xl font-bold text-white">Ready to Collaborate?</h3>
-              <p className="text-slate-300 max-w-2xl mx-auto leading-relaxed text-lg">
-                Whether you have a project in mind, want to discuss opportunities, or just want to say hello, 
-                I'd love to hear from you.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center pt-4">
-                <a
-                  href="mailto:iradukunda1happy1@gmail.com"
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-all hover:shadow-2xl"
-                >
-                  <Mail className="w-5 h-5" />
-                  Send Email
-                  <ArrowUpRight className="w-4 h-4 group-hover:rotate-45 transition-transform" />
-                </a>
-                <a
-                  href="#"
-                  className="group inline-flex items-center gap-3 px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white hover:text-slate-900 transition-all"
-                >
-                  <Download className="w-5 h-5" />
-                  Download Resume
-                </a>
-              </div>
+          <div className={`p-8 rounded-xl text-center ${
+            darkMode ? 'bg-neutral-900 border border-neutral-800' : 'bg-black text-white'
+          }`}>
+            <h3 className="text-2xl font-bold mb-3">Ready to Collaborate?</h3>
+            <p className={`mb-6 max-w-xl mx-auto ${
+              darkMode ? 'text-neutral-400' : 'text-neutral-300'
+            }`}>
+              Whether you have a project in mind or want to discuss opportunities, I'd love to hear from you.
+            </p>
+            <div className="flex flex-wrap gap-3 justify-center">
+              <a
+                href="mailto:iradukunda1happy1@gmail.com"
+                className={`inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-md transition-all ${
+                  darkMode
+                    ? 'bg-white text-black hover:bg-neutral-200'
+                    : 'bg-white text-black hover:bg-neutral-200'
+                }`}
+              >
+                <Mail className="w-4 h-4" />
+                Send Email
+              </a>
+              <a
+                href="#"
+                className={`inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-md transition-all ${
+                  darkMode
+                    ? 'border border-neutral-700 text-white hover:bg-neutral-800'
+                    : 'border border-neutral-300 text-white hover:border-white'
+                }`}
+              >
+                <Download className="w-4 h-4" />
+                Resume
+              </a>
             </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+      <footer className={`py-8 px-6 border-t ${
+        darkMode ? 'border-neutral-800' : 'border-neutral-200'
+      }`}>
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-center md:text-left">
-              <p className="text-xl font-bold text-slate-900 mb-1">Iradukunda Happy</p>
-              <p className="text-sm text-slate-600">Full-Stack Developer • Security Enthusiast • Problem Solver</p>
+              <p className="font-semibold">Iradukunda Happy</p>
+              <p className={`text-xs ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                Full-Stack Developer • Security Enthusiast
+              </p>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <a
                 href="https://github.com/kobe824-create"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-all hover:scale-110"
+                className={`p-2 rounded-md transition-colors ${
+                  darkMode 
+                    ? 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5" />
               </a>
               <a
                 href="mailto:iradukunda1happy1@gmail.com"
-                className="p-3 rounded-lg bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:border-slate-300 transition-all hover:scale-110"
+                className={`p-2 rounded-md transition-colors ${
+                  darkMode 
+                    ? 'text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800'
+                    : 'text-neutral-600 hover:text-neutral-900 hover:bg-neutral-100'
+                }`}
                 aria-label="Email"
               >
                 <Mail className="w-5 h-5" />
@@ -869,10 +896,10 @@ const Portfolio = () => {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-slate-200 text-center">
-            <p className="text-sm text-slate-500">
-              © {new Date().getFullYear()} Iradukunda Happy. Designed & Built with passion using React & Tailwind CSS.
-            </p>
+          <div className={`pt-6 mt-6 border-t text-center text-xs ${
+            darkMode ? 'border-neutral-800 text-neutral-500' : 'border-neutral-200 text-neutral-500'
+          }`}>
+            © {new Date().getFullYear()} Iradukunda Happy. Built with React & Tailwind CSS.
           </div>
         </div>
       </footer>
