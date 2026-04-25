@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code2, Shield, Download, Menu, X, ArrowUpRight, CheckCircle2, FileCode, Database, Globe, Server, Terminal, Moon, Sun, Smartphone, Cpu, Layers, ChevronDown, Sparkles, Zap, Trophy, Users, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Code2, Shield, Menu, X, ArrowUpRight, FileCode, Database, Globe, Server, Terminal, Moon, Sun, Smartphone, Cpu, Layers, ChevronDown, Zap, Trophy, Users, Heart } from 'lucide-react';
 
 const roles = ['Full-Stack Developer', 'Blockchain Engineer', 'ML Enthusiast', 'Mobile Developer'];
 
@@ -13,20 +13,44 @@ const SectionReveal = ({ id, children, className = '' }) => {
     obs.observe(node);
   }, []);
   return (
-    <div id={id} ref={ref} className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'} ${className}`}>
+    <div id={id} ref={ref} className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'} ${className}`}>
       {children}
     </div>
   );
 };
 
+const ActivityBars = ({ bars, dm }) => {
+  const max = Math.max(...bars);
+  const color = dm ? '#71717a' : '#a1a1aa';
+  return (
+    <div style={{ display: 'flex', alignItems: 'flex-end', gap: '3px', height: '36px' }}>
+      {bars.map((h, i) => (
+        <div key={i} style={{
+          width: '8px', borderRadius: '2px 2px 0 0',
+          height: `${Math.round((h / max) * 36)}px`,
+          background: color,
+          opacity: 0.2 + (i / bars.length) * 0.8,
+        }} />
+      ))}
+    </div>
+  );
+};
+
+const PhasePipeline = ({ phases, doneTo, dm }) => (
+  <div style={{ display: 'flex' }}>
+    {phases.map((ph, i) => (
+      <span key={ph} className={`proj-phase ${i < doneTo ? 'done' : ''} ${dm ? 'dark' : 'light'}`}>{ph}</span>
+    ))}
+  </div>
+);
+
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('home');
   const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(false);
   const [typedText, setTypedText] = useState('');
   const heroRef = useRef(null);
-
   const roleRef = useRef(0);
   const charRef = useRef(0);
   const deletingRef = useRef(false);
@@ -70,281 +94,333 @@ const Portfolio = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-
   const skills = {
-    frontend: { icon: Code2, color: 'from-zinc-500 to-zinc-400', items: ['JavaScript', 'React', 'Next.js', 'TypeScript', 'Vue.js', 'Tailwind CSS', 'HTML5 & CSS3'] },
-    backend: { icon: Server, color: 'from-zinc-600 to-zinc-500', items: ['Node.js', 'Express.js', 'Python', 'REST APIs', 'JWT Auth', 'PHP'] },
-    'ai & data': { icon: Cpu, color: 'from-zinc-700 to-zinc-600', items: ['Python', 'Machine Learning', 'Data Analysis', 'TensorFlow'] },
-    blockchain: { icon: Layers, color: 'from-zinc-800 to-zinc-700', items: ['Solidity', 'Remix IDE', 'Smart Contracts', 'Web3.js'] },
-    mobile: { icon: Smartphone, color: 'from-zinc-500 to-zinc-600', items: ['React Native', 'Flutter', 'Mobile UI/UX', 'Cross-Platform'] },
-    database: { icon: Database, color: 'from-zinc-600 to-zinc-700', items: ['MySQL', 'PostgreSQL', 'MongoDB'] },
-    tools: { icon: Terminal, color: 'from-zinc-500 to-zinc-400', items: ['Git & GitHub', 'Linux', 'VS Code', 'Postman', 'Docker'] }
+    frontend: { icon: Code2, items: ['JavaScript', 'React', 'Next.js', 'TypeScript', 'Vue.js', 'Tailwind CSS', 'HTML5 & CSS3'] },
+    backend: { icon: Server, items: ['Node.js', 'Express.js', 'Python', 'REST APIs', 'JWT Auth', 'PHP'] },
+    'ai & data': { icon: Cpu, items: ['Python', 'Machine Learning', 'Data Analysis', 'TensorFlow'] },
+    blockchain: { icon: Layers, items: ['Solidity', 'Remix IDE', 'Smart Contracts', 'Web3.js'] },
+    mobile: { icon: Smartphone, items: ['React Native', 'Flutter', 'Mobile UI/UX', 'Cross-Platform'] },
+    database: { icon: Database, items: ['MySQL', 'PostgreSQL', 'MongoDB'] },
+    tools: { icon: Terminal, items: ['Git & GitHub', 'Linux', 'VS Code', 'Postman', 'Docker'] },
   };
 
   const projects = [
     {
-      id: 0, title: 'Academic Operations', subtitle: 'School Management System',
-      description: 'A robust, full-stack school management system designed to modernize and streamline academic administration using the MERN stack. Digitalizes the entire lifecycle of student records, centralized archive, and collaborative management.',
+      id: '01', year: '2024', title: 'Academic Operations', subtitle: 'School Management System — MERN Stack',
+      description: 'A robust, full-stack school management system designed to modernize and streamline academic administration. Digitalizes the entire lifecycle of student records, centralized archive, and collaborative management.',
       challenge: 'Digitalizing manual record-keeping with professional PDF/Image repositories and Role-Based Access Control (RBAC) to eliminate fragmentation.',
-      tech: ['MERN Stack', 'MongoDB', 'Express', 'React', 'Node.js', 'CSV Export'],
+      phases: ['Spec', 'Prototype', 'Alpha', 'Production'], doneTo: 4,
       features: ['Unified School Admin', 'Digital Performance Tracking', 'Integrated Document Management', 'RBAC & Audit Logging', 'Automated Visualization'],
-      github: '#', demo: null, status: 'production', year: '2024',
-      impact: 'Eliminated risk of record loss and improved search efficiency by 100%'
+      tech: ['MERN Stack', 'MongoDB', 'Express', 'React', 'Node.js', 'CSV Export'],
+      impact: 'Eliminated risk of record loss and improved search efficiency by 100%.',
+      github: '#', demo: null, bars: [2, 4, 5, 6, 8, 7, 9, 10, 9, 11, 10, 12],
     },
     {
-      id: 1, title: 'FDF Aside', subtitle: 'Tontine (Ikibina)',
-      description: 'A comprehensive fintech solution designed to digitize the management of traditional savings groups (Ibimina). The platform transitions groups from manual, error-prone paper ledgers to a secure, real-time digital environment.',
+      id: '02', year: '2025', title: 'FDF Aside', subtitle: 'Tontine (Ikibina) — Fintech savings platform',
+      description: 'A comprehensive fintech solution designed to digitize the management of traditional savings groups (Ibimina). Transitions groups from manual, error-prone paper ledgers to a secure, real-time digital environment.',
       challenge: 'Built a secure authentication system with role-based access control while ensuring transaction integrity and scalability for enterprise use.',
-      tech: ['React', 'Node.js', 'MongoDB', 'JWT', 'Express', 'Tailwind'],
+      phases: ['Spec', 'Prototype', 'Alpha', 'Production'], doneTo: 4,
       features: ['Dynamic Contribution Tracking', 'Automated Penalty Engine', 'Flexible Member Management', 'Live Meeting & Attendance Analytics'],
-      github: 'https://github.com/kobe824-create/fdf_aside', demo: null, status: 'production', year: '2025',
-      impact: 'FDF Aside acts as a digital secretary for savings collectives.'
+      tech: ['React', 'Node.js', 'MongoDB', 'JWT', 'Express', 'Tailwind'],
+      impact: 'Acts as a digital secretary for savings collectives — replacing error-prone paper ledgers.',
+      github: 'https://github.com/kobe824-create/fdf_aside', demo: null, bars: [1, 3, 3, 5, 6, 8, 9, 10, 11, 12, 12, 12],
     },
     {
-      id: 2, title: 'School Stock Management', subtitle: 'Educational Resource System',
-      description: 'An inventory management solution designed for educational institutions to track materials, handle teacher requests, and manage approval workflows efficiently.',
+      id: '03', year: '2024', title: 'School Stock Management', subtitle: 'Educational Resource System — Vue.js',
+      description: 'An inventory management solution for educational institutions to track materials, handle teacher requests, and manage approval workflows efficiently.',
       challenge: 'Designed a flexible approval system that accommodates different organizational hierarchies while maintaining data consistency.',
-      tech: ['Vue.js', 'Node.js', 'MySQL', 'Express', 'Bootstrap'],
+      phases: ['Spec', 'Prototype', 'Alpha', 'Production'], doneTo: 4,
       features: ['Request management', 'Approval workflows', 'Stock tracking', 'Role-based access'],
-      github: 'https://github.com/kobe824-create/stock_managementWithReact', demo: null, status: 'production', year: '2024',
-      impact: 'Reduced material request processing time by 60%'
-    }
+      tech: ['Vue.js', 'Node.js', 'MySQL', 'Express', 'Bootstrap'],
+      impact: 'Reduced material request processing time by 60%.',
+      github: 'https://github.com/kobe824-create/stock_managementWithReact', demo: null, bars: [3, 4, 5, 5, 7, 8, 8, 9, 9, 10, 10, 11],
+    },
   ];
 
-
   const stats = [
-    { icon: Trophy, value: '3+', label: 'Years Coding', color: 'text-amber-400' },
-    { icon: Zap, value: '5+', label: 'Projects Built', color: 'text-blue-400' },
-    { icon: Layers, value: '7+', label: 'Technologies', color: 'text-purple-400' },
-    { icon: Users, value: '100%', label: 'Passion', color: 'text-emerald-400' }
+    { icon: Trophy, value: '3+', label: 'Years Coding' },
+    { icon: Zap, value: '5+', label: 'Projects Built' },
+    { icon: Layers, value: '7+', label: 'Tech Domains' },
+    { icon: Users, value: '100%', label: 'Passion' },
   ];
 
   const dm = darkMode;
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
-
+  const T = {
+    bg: dm ? '#0a0f1c' : '#f8fafc',
+    bgAlt: dm ? '#0d1224' : '#ffffff',
+    text: dm ? '#e4e4e7' : '#18181b',
+    muted: dm ? '#52525b' : '#a1a1aa',
+    secondary: dm ? '#71717a' : '#71717a',
+    border: dm ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.08)',
+    borderMid: dm ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.14)',
+    surface: dm ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.9)',
+  };
 
   return (
-    <div className={`${dm ? 'bg-[#0a0f1c] text-white' : 'bg-[#f8fafc] text-slate-900'} font-sans antialiased transition-colors duration-500 min-h-screen overflow-x-hidden`}>
+    <div style={{ background: T.bg, color: T.text, fontFamily: "'DM Sans', sans-serif", minHeight: '100vh', overflowX: 'hidden', transition: 'background 0.4s, color 0.4s' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
-        * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; scroll-behavior: smooth; }
-        code, .mono { font-family: 'JetBrains Mono', monospace; }
-        .gradient-text { background: linear-gradient(135deg, #ffffff, #a1a1aa, #52525b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
-        .glass-light { background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.05); }
-        .glow-border { position: relative; }
-        .glow-border::before { content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, #ffffff, #71717a, #3f3f46); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0; transition: opacity 0.4s; }
-        .glow-border:hover::before { opacity: 1; }
-        .hero-gradient { background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.03) 0%, transparent 50%); }
-        .hero-gradient-light { background: radial-gradient(ellipse at 20% 50%, rgba(0,0,0,0.02) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0,0,0,0.01) 0%, transparent 50%); }
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; }
+        .mono { font-family: 'DM Mono', monospace; }
         .cursor-blink { animation: blink 1s step-end infinite; }
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-        .float-anim { animation: float 6s ease-in-out infinite; }
-        @keyframes pulse-glow { 0%,100%{box-shadow:0 0 20px rgba(255,255,255,0.1)} 50%{box-shadow:0 0 30px rgba(255,255,255,0.2)} }
-        .pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
-        .skill-chip { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-        .skill-chip:hover { transform: translateY(-2px) scale(1.05); }
-        .project-card-premium { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .project-card-premium:hover { transform: translateY(-4px); }
-        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+        a { text-decoration: none; color: inherit; }
+
+        /* Rule lines */
+        .ruled-row { border-bottom: 0.5px solid ${T.border}; }
+        .ruled-top { border-top: 0.5px solid ${T.border}; }
+
+        /* Nav link */
+        .nav-link { padding: 6px 14px; border-radius: 6px; font-size: 15px; font-weight: 500; transition: background 0.2s, color 0.2s; color: ${T.secondary}; }
+        .nav-link:hover, .nav-link.active { color: ${T.text}; background: ${dm ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}; }
+
+        /* Pill button */
+        .btn-solid { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; font-size: 15px; font-weight: 600; border-radius: 8px; background: ${T.text}; color: ${T.bg}; cursor: pointer; border: none; transition: opacity 0.2s, transform 0.2s; letter-spacing: 0.03em; }
+        .btn-solid:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-ghost { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; font-size: 15px; font-weight: 500; border-radius: 8px; border: 0.5px solid ${T.borderMid}; background: transparent; color: ${T.secondary}; cursor: pointer; transition: background 0.2s, color 0.2s, transform 0.2s; }
+        .btn-ghost:hover { background: ${dm ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.04)'}; color: ${T.text}; transform: translateY(-1px); }
+
+        /* Icon social button */
+        .icon-btn { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 8px; border: 0.5px solid ${T.border}; color: ${T.secondary}; transition: border-color 0.2s, color 0.2s, transform 0.2s; }
+        .icon-btn:hover { border-color: ${T.borderMid}; color: ${T.text}; transform: translateY(-2px); }
+
+        /* Stat row item */
+        .stat-item { display: flex; align-items: center; gap: 14px; padding: 20px 0; }
+        .stat-item + .stat-item { border-left: 0.5px solid ${T.border}; padding-left: 32px; margin-left: 8px; }
+
+        /* Skill index row */
+        .skill-row { display: grid; grid-template-columns: 140px 1fr; gap: 0; align-items: start; padding: 16px 0; border-bottom: 0.5px solid ${T.border}; }
+        .skill-row:first-child { border-top: 0.5px solid ${T.border}; }
+        .skill-tag { display: inline-block; font-family: 'DM Mono', monospace; font-size: 13px; padding: 3px 9px; border-radius: 4px; border: 0.5px solid ${T.border}; color: ${T.secondary}; margin: 3px; white-space: nowrap; transition: border-color 0.2s, color 0.2s; }
+        .skill-tag:hover { border-color: ${T.borderMid}; color: ${T.text}; }
+
+        /* About card */
+        .about-card { border: 0.5px solid ${T.border}; border-radius: 10px; padding: 24px; background: ${T.surface}; }
+
+        /* Project entry */
+        .proj-entry { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 2rem; padding: 36px 0; border-bottom: 0.5px solid ${T.border}; }
+        .proj-phase { font-size: 12px; padding: 4px 10px; border: 0.5px solid; margin-right: -0.5px; font-family: 'DM Mono', monospace; }
+        .proj-phase:first-child { border-radius: 4px 0 0 4px; }
+        .proj-phase:last-child { border-radius: 0 4px 4px 0; }
+        .proj-phase.done.dark { border-color: #52525b; color: #d4d4d8; background: rgba(255,255,255,0.05); }
+        .proj-phase.done.light { border-color: #a1a1aa; color: #3f3f46; background: #f4f4f5; }
+        .proj-phase:not(.done).dark { border-color: rgba(255,255,255,0.07); color: #3f3f46; }
+        .proj-phase:not(.done).light { border-color: rgba(0,0,0,0.08); color: #d4d4d8; }
+        .proj-link-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: ${T.secondary}; border-bottom: 0.5px solid currentColor; padding-bottom: 1px; transition: color 0.2s; }
+        .proj-link-btn:hover { color: ${T.text}; }
+
+        /* Contact row */
+        .contact-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; border-bottom: 0.5px solid ${T.border}; transition: background 0.15s; }
+        .contact-row:hover { background: ${dm ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'}; }
+
+        /* Footer */
+        .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding: 28px 0; border-top: 0.5px solid ${T.border}; }
+
+        /* Mobile menu */
+        .mobile-menu { position: fixed; top: 57px; left: 0; right: 0; z-index: 49; padding: 12px 20px 20px; border-bottom: 0.5px solid ${T.border}; background: ${dm ? 'rgba(10,15,28,0.97)' : 'rgba(248,250,252,0.97)'}; backdrop-filter: blur(16px); }
+
+        @media (max-width: 768px) {
+          .proj-entry { grid-template-columns: 1.5rem 1fr; gap: 0 12px; }
+          .skill-row { grid-template-columns: 1fr; gap: 8px; }
+          .stat-item + .stat-item { border-left: none; padding-left: 0; margin-left: 0; border-top: 0.5px solid ${T.border}; padding-top: 20px; margin-top: 0; }
+        }
       `}</style>
 
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${isScrolled
-        ? dm ? 'bg-[#0a0f1c]/90 backdrop-blur-xl border-b border-white/5' : 'bg-white/90 backdrop-blur-xl border-b border-slate-200/50 shadow-sm'
-        : 'bg-transparent'
-        }`}>
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center justify-between h-16">
-            <a href="#home" className="relative group">
-              <span className="text-xl font-bold gradient-text">IH</span>
-              <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-cyan-400 transition-all duration-300 group-hover:w-full`}></span>
-            </a>
-            <div className="hidden md:flex items-center gap-1">
-              {['About', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
-                <a key={item} href={`#${item.toLowerCase()}`}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${activeSection === item.toLowerCase()
-                    ? dm ? 'text-white bg-white/10' : 'text-black bg-black/5'
-                    : dm ? 'text-zinc-400 hover:text-white hover:bg-white/5' : 'text-zinc-600 hover:text-black hover:bg-black/5'
-                    }`}>
-                  <span className="mono text-[10px] text-zinc-500 mr-1.5">{String(idx + 1).padStart(2, '0')}</span>{item}
-                </a>
-              ))}
-            </div>
-            <div className="hidden md:flex items-center gap-3">
-              <button onClick={toggleDarkMode} className={`p-2.5 rounded-xl transition-all ${dm ? 'hover:bg-white/10 text-zinc-400 hover:text-white' : 'hover:bg-zinc-100 text-zinc-600 hover:text-black'}`} aria-label="Toggle theme">
-                {dm ? <Sun className="w-[18px] h-[18px]" /> : <Moon className="w-[18px] h-[18px]" />}
-              </button>
-              <a href="mailto:iradukunda1happy1@gmail.com" className="px-5 py-2 text-sm font-extrabold rounded-xl bg-white text-black hover:bg-zinc-200 transition-all duration-300 hover:-translate-y-0.5">
-                LET'S TALK
+      {/* ── NAV ─────────────────────────────────────────────────────── */}
+      <nav style={{
+        position: 'fixed', top: 0, width: '100%', zIndex: 50,
+        borderBottom: isScrolled ? `0.5px solid ${T.border}` : 'none',
+        background: isScrolled ? (dm ? 'rgba(10,15,28,0.92)' : 'rgba(248,250,252,0.92)') : 'transparent',
+        backdropFilter: isScrolled ? 'blur(20px)' : 'none',
+        transition: 'background 0.3s, border-color 0.3s',
+      }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 57 }}>
+          <a href="#home" style={{ fontFamily: 'DM Mono, monospace', fontSize: 15, fontWeight: 500, color: T.text, letterSpacing: '0.05em' }}>IH.</a>
+
+          <div className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            {['About', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
+              <a key={item} href={`#${item.toLowerCase()}`}
+                className={`nav-link${activeSection === item.toLowerCase() ? ' active' : ''}`}>
+                <span className="mono" style={{ fontSize: 10, color: T.muted, marginRight: 6 }}>{String(idx + 1).padStart(2, '0')}</span>{item}
               </a>
-            </div>
-            <button onClick={() => setMenuOpen(!menuOpen)} className={`md:hidden p-2.5 rounded-xl ${dm ? 'hover:bg-white/10' : 'hover:bg-slate-100'}`}>
-              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            ))}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button onClick={toggleDarkMode} className="icon-btn" aria-label="Toggle theme">
+              {dm ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
+            <a href="mailto:iradukunda1happy1@gmail.com" className="btn-solid" style={{ display: 'none' }}>
+              Let's talk
+            </a>
+            <a href="mailto:iradukunda1happy1@gmail.com" className="btn-solid md-show">
+              Let's talk
+            </a>
+            <button onClick={() => setMenuOpen(!menuOpen)} className="icon-btn md:hidden" style={{ display: 'none' }}>
+              {menuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
         {menuOpen && (
-          <div className={`md:hidden ${dm ? 'bg-[#0a0f1c]/95 backdrop-blur-xl border-t border-white/5' : 'bg-white/95 backdrop-blur-xl border-t border-slate-200'}`}>
-            <div className="px-6 py-4 space-y-1">
-              {['About', 'Skills', 'Projects', 'Contact'].map(item => (
-                <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
-                  className={`block py-3 px-4 rounded-xl text-sm font-medium transition-all ${dm ? 'text-slate-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'}`}>{item}</a>
-              ))}
-              <button onClick={toggleDarkMode} className={`flex items-center gap-2 py-3 px-4 rounded-xl text-sm font-medium w-full ${dm ? 'text-slate-300 hover:text-white hover:bg-white/5' : 'text-slate-700 hover:text-slate-900 hover:bg-slate-50'}`}>
-                {dm ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}{dm ? 'Light Mode' : 'Dark Mode'}
-              </button>
-            </div>
+          <div className="mobile-menu">
+            {['About', 'Skills', 'Projects', 'Contact'].map(item => (
+              <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
+                style={{ display: 'block', padding: '12px 8px', fontSize: 14, color: T.secondary, borderBottom: `0.5px solid ${T.border}` }}>
+                {item}
+              </a>
+            ))}
+            <button onClick={toggleDarkMode} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '12px 8px', fontSize: 14, color: T.secondary, background: 'none', border: 'none', cursor: 'pointer', width: '100%' }}>
+              {dm ? <Sun size={15} /> : <Moon size={15} />} {dm ? 'Light mode' : 'Dark mode'}
+            </button>
           </div>
         )}
       </nav>
 
-      {/* Hero Section */}
-      <section id="home" ref={heroRef} className={`relative min-h-screen flex items-center px-6 pt-20 ${dm ? 'hero-gradient' : 'hero-gradient-light'}`}>
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {[...Array(3)].map((_, i) => (
-            <div key={i} className="absolute rounded-full blur-3xl opacity-20 float-anim"
-              style={{
-                width: `${200 + i * 100}px`, height: `${200 + i * 100}px`, left: `${20 + i * 25}%`, top: `${10 + i * 20}%`,
-                background: ['rgba(59,130,246,0.3)', 'rgba(139,92,246,0.2)', 'rgba(6,182,212,0.25)'][i], animationDelay: `${i * 2}s`
-              }} />
-          ))}
-        </div>
-        <div className="max-w-6xl mx-auto w-full relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="space-y-8">
-              <div className="space-y-6">
-                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-xs font-bold bg-white/5 border border-white/10 text-zinc-300">
-                  <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                  Available for opportunities
-                </div>
-                <h1 className="text-5xl lg:text-7xl font-black tracking-tighter leading-[1.1]">
-                  <span className={dm ? 'text-white' : 'text-black'}>Iradukunda</span><br />
-                  <span className="gradient-text">Happy</span>
-                </h1>
-                <div className="flex items-center gap-2 text-xl lg:text-2xl font-medium">
-                  <span className={dm ? 'text-zinc-500' : 'text-zinc-400'}>&gt;</span>
-                  <span className="mono text-white">{typedText}</span>
-                  <span className={`cursor-blink text-white font-light`}>|</span>
-                </div>
+      {/* ── HERO ────────────────────────────────────────────────────── */}
+      <section id="home" ref={heroRef} style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', padding: '0 24px', paddingTop: 80, background: T.bg }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', width: '100%' }}>
+          {/* Ruled header label */}
+          <div style={{ borderTop: `0.5px solid ${T.border}`, paddingTop: 32, marginBottom: 48 }}>
+            <span className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Portfolio — Kigali, Rwanda</span>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 48, alignItems: 'start' }}>
+            <div>
+              <h1 style={{ fontSize: 'clamp(44px, 7vw, 88px)', fontWeight: 300, lineHeight: 1.05, letterSpacing: '-0.03em', color: T.text, marginBottom: 24 }}>
+                Iradukunda<br />
+                <span style={{ fontWeight: 700 }}>Happy Qasim</span>
+              </h1>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28, minHeight: 32 }}>
+                <span className="mono" style={{ fontSize: 13, color: T.muted }}>›</span>
+                <span className="mono" style={{ fontSize: 16, color: T.text }}>{typedText}</span>
+                <span className="mono cursor-blink" style={{ fontSize: 16, color: T.muted }}>_</span>
               </div>
-              <p className={`text-base lg:text-lg leading-relaxed max-w-lg ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                Building secure, scalable applications across web, mobile, blockchain and AI.
-                Based in Rwanda, crafting meaningful solutions through code.
+              <p style={{ fontSize: 17, lineHeight: 1.75, color: T.secondary, maxWidth: 480, marginBottom: 36 }}>
+                Building secure, scalable applications across web, mobile, blockchain, and AI. Based in Rwanda — crafting meaningful solutions through thoughtful code.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <a href="#projects" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-extrabold rounded-xl bg-white text-black hover:bg-zinc-200 transition-all duration-300 hover:-translate-y-0.5">
-                  VIEW PROJECTS <ArrowUpRight className="w-4 h-4" />
-                </a>
-                <a href="#" className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 ${dm ? 'glass hover:bg-white/10' : 'glass-light hover:bg-zinc-100'}`}>
-                  <Download className="w-4 h-4" /> RESUME
-                </a>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 36 }}>
+                <a href="#projects" className="btn-solid">View projects <ArrowUpRight size={15} /></a>
+                <a href="mailto:iradukunda1happy1@gmail.com" className="btn-ghost">Get in touch <Mail size={15} /></a>
               </div>
-              <div className="flex items-center gap-3 pt-2">
+              <div style={{ display: 'flex', gap: 8 }}>
                 {[
                   { icon: Github, href: 'https://github.com/kobe824-create', label: 'GitHub' },
-                  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-                  { icon: Mail, href: 'mailto:iradukunda1happy1@gmail.com', label: 'Email' }
+                  { icon: Linkedin, href: 'https://www.linkedin.com/in/iradukunda-happy-7873a1277/', label: 'LinkedIn' },
+                  { icon: Mail, href: 'mailto:iradukunda1happy1@gmail.com', label: 'Email' },
                 ].map(s => (
-                  <a key={s.label} href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                    className={`p-3 rounded-xl transition-all duration-300 hover:-translate-y-1 ${dm ? 'glass hover:bg-white/10 text-zinc-400 hover:text-white' : 'glass-light hover:bg-zinc-100 text-zinc-500 hover:text-black'}`} aria-label={s.label}>
-                    <s.icon className="w-5 h-5" />
+                  <a key={s.label} href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined}
+                    rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="icon-btn" aria-label={s.label}>
+                    <s.icon size={16} />
                   </a>
                 ))}
               </div>
             </div>
-            <div className="flex justify-center lg:justify-end">
-              <div className="relative">
-                <div className="absolute -inset-4 rounded-3xl bg-white/5 blur-2xl opacity-40 float-anim"></div>
-                <img src="/My_image.jpeg" alt="Iradukunda Happy"
-                  className={`relative w-72 h-72 lg:w-[380px] lg:h-[380px] object-cover rounded-3xl ${dm ? 'ring-1 ring-white/10' : 'ring-1 ring-black/10 shadow-2xl'}`} />
-                <div className={`absolute -bottom-5 -right-5 px-5 py-3 rounded-2xl ${dm ? 'glass' : 'glass-light shadow-lg'}`}>
-                  <p className="text-sm font-bold gradient-text">3+ YEARS</p>
-                  <p className={`text-xs ${dm ? 'text-zinc-400' : 'text-zinc-500'}`}>EXPERIENCE</p>
-                </div>
-                <div className={`absolute -top-3 -left-3 p-3 rounded-2xl float-anim ${dm ? 'glass' : 'glass-light shadow-lg'}`} style={{ animationDelay: '1s' }}>
-                  <Sparkles className="w-5 h-5 text-zinc-400" />
-                </div>
+
+            {/* Portrait */}
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 12 }}>
+              <img src="/My_image.jpeg" alt="Iradukunda Happy" style={{
+                width: 'clamp(180px, 20vw, 280px)', aspectRatio: '1', objectFit: 'cover',
+                borderRadius: 12, border: `0.5px solid ${T.border}`,
+                filter: dm ? 'none' : 'none',
+              }} />
+              <div style={{ alignSelf: 'flex-end', textAlign: 'right' }}>
+                <p className="mono" style={{ fontSize: 11, color: T.muted }}>3+ yrs experience</p>
+                <p className="mono" style={{ fontSize: 11, color: T.muted }}>Kigali · remote-ready</p>
               </div>
             </div>
           </div>
-          <div className="flex justify-center pt-16 lg:pt-20">
-            <a href="#about" className={`p-2 rounded-full animate-bounce ${dm ? 'text-slate-500 hover:text-white' : 'text-slate-400 hover:text-slate-900'}`}>
-              <ChevronDown className="w-6 h-6" />
+
+          <div style={{ paddingTop: 64, display: 'flex', justifyContent: 'center' }}>
+            <a href="#about" style={{ color: T.muted, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6, animation: 'bounce 2s infinite' }}>
+              <ChevronDown size={20} />
             </a>
           </div>
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <SectionReveal id="stats-bar" className={`py-8 px-6 ${dm ? 'bg-[#0d1224] border-y border-white/5' : 'bg-white border-y border-slate-100'}`}>
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((s, i) => (
-            <div key={i} className="flex items-center gap-4 justify-center">
-              <div className={`p-3 rounded-xl ${dm ? 'bg-white/5' : 'bg-slate-50'}`}><s.icon className={`w-6 h-6 ${s.color}`} /></div>
-              <div><p className="text-2xl font-black">{s.value}</p><p className={`text-xs font-medium ${dm ? 'text-slate-500' : 'text-slate-500'}`}>{s.label}</p></div>
-            </div>
-          ))}
+      {/* ── STATS ───────────────────────────────────────────────────── */}
+      <SectionReveal id="stats-bar">
+        <div style={{ background: T.bgAlt, borderTop: `0.5px solid ${T.border}`, borderBottom: `0.5px solid ${T.border}`, padding: '0 24px' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: 0 }}>
+            {stats.map((s, i) => (
+              <div key={i} className="stat-item" style={{ flex: '1 1 140px' }}>
+                <s.icon size={18} style={{ color: T.muted, flexShrink: 0 }} />
+                <div>
+                  <p style={{ fontSize: 22, fontWeight: 700, lineHeight: 1.2, color: T.text }}>{s.value}</p>
+                  <p className="mono" style={{ fontSize: 11, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em' }}>{s.label}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </SectionReveal>
 
-      {/* About Section */}
-      <section id="about" className={`py-24 px-6 ${dm ? 'bg-[#0a0f1c]' : 'bg-[#f8fafc]'}`}>
+      {/* ── ABOUT ───────────────────────────────────────────────────── */}
+      <section id="about" style={{ padding: '96px 24px', background: T.bg }}>
         <SectionReveal id="about-content">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-12 gap-12">
-              <div className="lg:col-span-7 space-y-6">
-                <div className="space-y-3">
-                  <p className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500">About Me</p>
-                  <h2 className="text-4xl lg:text-5xl font-black">Building with <span className="gradient-text">Purpose</span></h2>
-                </div>
-                <div className={`space-y-4 text-base leading-relaxed ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            {/* Section label */}
+            <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 52 }}>
+              <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>About</p>
+              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 01</p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 64, alignItems: 'start' }}>
+              {/* Left: prose */}
+              <div>
+                <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em', marginBottom: 28, color: T.text }}>
+                  Building with<br />purpose and precision.
+                </h2>
+                <div style={{ fontSize: 16, lineHeight: 1.8, color: T.secondary, display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 520 }}>
                   <p>My journey into software development began with curiosity about how technology shapes our world. That curiosity evolved into a disciplined commitment to building applications that are functional, secure, and maintainable.</p>
                   <p>As a developer from Rwanda, I've expanded beyond full-stack web development into blockchain, machine learning, and mobile development — always with a security-first mindset and clean architecture principles.</p>
-                  <p>Beyond writing code, I'm committed to ethical technology development, building solutions that respect user privacy and serve genuine human needs.</p>
+                  <p>Beyond writing code, I'm committed to ethical technology development: building solutions that respect user privacy and serve genuine human needs.</p>
                 </div>
-                <div className="grid sm:grid-cols-2 gap-4 pt-4">
+
+                {/* Two principles — inline ruled list instead of cards */}
+                <div style={{ marginTop: 40 }}>
                   {[
-                    { icon: Shield, title: 'Security First', desc: 'JWT, bcrypt, OWASP practices', color: 'from-zinc-500 to-zinc-400' },
-                    { icon: Code2, title: 'Clean Code', desc: 'Scalable, maintainable architecture', color: 'from-zinc-700 to-zinc-600' }
+                    { icon: Shield, title: 'Security first', desc: 'JWT, bcrypt, OWASP best practices baked in from day one — not bolted on.' },
+                    { icon: Code2, title: 'Clean architecture', desc: 'Scalable, maintainable code that the next developer can read without a map.' },
                   ].map((c, i) => (
-                    <div key={i} className={`p-5 rounded-2xl glow-border transition-all duration-300 hover:-translate-y-1 ${dm ? 'glass' : 'glass-light shadow-sm hover:shadow-md'}`}>
-                      <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${c.color} flex items-center justify-center mb-3`}>
-                        <c.icon className="w-5 h-5 text-white" />
+                    <div key={i} style={{ display: 'flex', gap: 20, padding: '20px 0', borderBottom: `0.5px solid ${T.border}` }}>
+                      <c.icon size={18} style={{ color: T.muted, marginTop: 2, flexShrink: 0 }} />
+                      <div>
+                        <p style={{ fontSize: 15, fontWeight: 600, color: T.text, marginBottom: 4 }}>{c.title}</p>
+                        <p style={{ fontSize: 14, color: T.secondary, lineHeight: 1.6 }}>{c.desc}</p>
                       </div>
-                      <h3 className="font-bold mb-1">{c.title}</h3>
-                      <p className={`text-sm ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>{c.desc}</p>
                     </div>
                   ))}
                 </div>
               </div>
-              <div className="lg:col-span-5 space-y-4">
-                <div className={`p-6 rounded-2xl ${dm ? 'glass' : 'glass-light shadow-sm'}`}>
-                  <h3 className="font-bold mb-5 flex items-center gap-2"><Sparkles className="w-4 h-4 text-zinc-400" /> Quick Facts</h3>
-                  <div className="space-y-4">
-                    {[
-                      { label: 'Location', value: 'Kigali, Rwanda' },
-                      { label: 'Experience', value: '3+ Years Coding' },
-                      { label: 'Focus', value: 'Full-Stack & Blockchain' },
-                      { label: 'Availability', value: 'Open to opportunities', dot: true }
-                    ].map((f, i) => (
-                      <div key={i}>
-                        <p className={`text-[10px] font-bold uppercase tracking-widest mb-1 ${dm ? 'text-zinc-600' : 'text-zinc-400'}`}>{f.label}</p>
-                        <div className="flex items-center gap-2">
-                          {f.dot && <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>}
-                          <p className="text-sm font-semibold">{f.value}</p>
-                        </div>
+
+              {/* Right: fact sheet */}
+              <div>
+                <div className="about-card" style={{ marginBottom: 16 }}>
+                  <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 20 }}>Quick facts</p>
+                  {[
+                    { label: 'Location', value: 'Kigali, Rwanda' },
+                    { label: 'Experience', value: '3+ years coding' },
+                    { label: 'Focus', value: 'Full-Stack & Blockchain' },
+                    { label: 'Availability', value: 'Open to opportunities', dot: true },
+                  ].map((f, i) => (
+                    <div key={i} style={{ padding: '12px 0', borderBottom: i < 3 ? `0.5px solid ${T.border}` : 'none' }}>
+                      <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 4 }}>{f.label}</p>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        {f.dot && <span style={{ width: 6, height: 6, borderRadius: '50%', background: T.text, display: 'inline-block' }} />}
+                        <p style={{ fontSize: 14, fontWeight: 500, color: T.text }}>{f.value}</p>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="p-6 rounded-2xl bg-white text-black">
-                  <Globe className="w-6 h-6 mb-3 opacity-80" />
-                  <h3 className="font-bold mb-2">Remote Ready</h3>
-                  <p className="text-sm text-zinc-700">Open to internships and junior developer roles worldwide.</p>
+                <div className="about-card">
+                  <Globe size={16} style={{ color: T.muted, marginBottom: 10 }} />
+                  <p style={{ fontSize: 14, fontWeight: 600, color: T.text, marginBottom: 6 }}>Remote ready</p>
+                  <p style={{ fontSize: 13, color: T.secondary, lineHeight: 1.6 }}>Open to remote positions and on-site roles based in Kigali.</p>
                 </div>
               </div>
             </div>
@@ -352,199 +428,224 @@ const Portfolio = () => {
         </SectionReveal>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className={`py-24 px-6 ${dm ? 'bg-[#0d1224]' : 'bg-white'}`}>
+      {/* ── SKILLS ──────────────────────────────────────────────────── */}
+      <section id="skills" style={{ padding: '96px 24px', background: T.bgAlt }}>
         <SectionReveal id="skills-content">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-14 space-y-3 text-center">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500">Technical Expertise</p>
-              <h2 className="text-4xl lg:text-5xl font-black">Skills & <span className="gradient-text">Technologies</span></h2>
-              <p className={`max-w-2xl mx-auto ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>Technologies I've been working with across the full development spectrum</p>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 52 }}>
+              <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Technical Expertise</p>
+              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 02</p>
             </div>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 64px', alignItems: 'start' }}>
+              <div>
+                <h2 style={{ fontSize: 'clamp(26px, 3.5vw, 40px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.2, color: T.text, marginBottom: 36 }}>
+                  Skills &<br />technologies.
+                </h2>
+                <p style={{ fontSize: 15, color: T.secondary, lineHeight: 1.75, marginBottom: 48, maxWidth: 380 }}>
+                  Technologies I've worked with across the full development spectrum — from browser to blockchain.
+                </p>
+              </div>
+              {/* Security callout on right */}
+              <div style={{ borderLeft: `0.5px solid ${T.border}`, paddingLeft: 40 }}>
+                <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 14 }}>Security specialisation</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                  {['JWT', 'bcrypt', 'OWASP', 'Input Validation', 'CORS', 'XSS Prevention'].map(item => (
+                    <span key={item} className="skill-tag">{item}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Skill index table */}
+            <div>
               {Object.entries(skills).map(([category, data]) => (
-                <div key={category} className={`p-5 rounded-2xl glow-border transition-all duration-300 hover:-translate-y-1 ${dm ? 'glass' : 'glass-light shadow-sm hover:shadow-md'}`}>
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${data.color} flex items-center justify-center`}>
-                      <data.icon className="w-5 h-5 text-white" />
-                    </div>
-                    <h3 className="font-bold capitalize text-sm">{category}</h3>
+                <div key={category} className="skill-row">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingTop: 4 }}>
+                    <data.icon size={14} style={{ color: T.muted, flexShrink: 0 }} />
+                    <span style={{ fontSize: 13, fontWeight: 600, color: T.text, textTransform: 'capitalize' }}>{category}</span>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {data.items.map(skill => (
-                      <span key={skill} className={`skill-chip px-3 py-1.5 rounded-lg text-xs font-semibold cursor-default ${dm ? 'bg-white/5 text-zinc-300 hover:bg-white/10 border border-white/5 hover:border-white/20' : 'bg-zinc-50 text-zinc-700 hover:bg-zinc-100 border border-zinc-200 hover:border-zinc-300'}`}>
-                        {skill}
+                      <span key={skill} className="skill-tag">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </SectionReveal>
+      </section>
+
+      {/* ── PROJECTS ────────────────────────────────────────────────── */}
+      <section id="projects" style={{ padding: '96px 24px', background: T.bg }}>
+        <SectionReveal id="projects-content">
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 0 }}>
+              <div>
+                <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>Work</p>
+                <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, letterSpacing: '-0.02em', color: T.text }}>Selected projects</h2>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 03</p>
+                <p className="mono" style={{ fontSize: 10, color: T.muted }}>{projects.length} entries</p>
+              </div>
+            </div>
+
+            {projects.map((project) => (
+              <div key={project.id} className="proj-entry">
+                {/* Index col */}
+                <p className="mono" style={{ fontSize: 11, color: T.muted, paddingTop: 4 }}>{project.id}</p>
+
+                {/* Content col */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8 }}>
+                    <span className="mono" style={{ fontSize: 11, color: T.muted }}>{project.year}</span>
+                    <span style={{ fontSize: 11, color: T.muted }}>shipped</span>
+                  </div>
+
+                  <h3 style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.01em', color: T.text, marginBottom: 2 }}>{project.title}</h3>
+                  <p style={{ fontSize: 14, color: T.secondary, marginBottom: 16 }}>{project.subtitle}</p>
+                  <p style={{ fontSize: 15, lineHeight: 1.75, color: T.secondary, maxWidth: 560, marginBottom: 20 }}>{project.description}</p>
+
+                  {/* Challenge */}
+                  <div style={{ marginBottom: 20 }}>
+                    <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Technical challenge</p>
+                    <p style={{ fontSize: 14, lineHeight: 1.7, color: T.secondary, borderLeft: `2px solid ${T.borderMid}`, paddingLeft: 12, maxWidth: 480 }}>{project.challenge}</p>
+                  </div>
+
+                  {/* Activity */}
+                  <div style={{ marginBottom: 20 }}>
+                    <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Activity</p>
+                    <ActivityBars bars={project.bars} dm={dm} />
+                  </div>
+
+                  {/* Phases */}
+                  <div style={{ marginBottom: 20 }}>
+                    <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Phases</p>
+                    <PhasePipeline phases={project.phases} doneTo={project.doneTo} dm={dm} />
+                  </div>
+
+                  {/* Features */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 20px', marginBottom: 20 }}>
+                    {project.features.map(f => (
+                      <span key={f} style={{ fontSize: 14, color: T.secondary, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <span style={{ color: T.muted }}>–</span> {f}
                       </span>
                     ))}
                   </div>
-                </div>
-              ))}
-            </div>
-            <div className={`mt-10 p-6 rounded-2xl ${dm ? 'glass' : 'glass-light shadow-sm'}`}>
-              <div className="flex items-start gap-4">
-                <div className={`p-3 rounded-xl bg-gradient-to-br from-zinc-500 to-zinc-400`}>
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold mb-2">Security Specialization</h3>
-                  <p className={`mb-4 text-sm ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>Deep expertise in web application security, including JWT auth, bcrypt hashing, input validation, and OWASP best practices.</p>
-                  <div className="flex flex-wrap gap-2">
-                    {['JWT', 'bcrypt', 'OWASP', 'Input Validation', 'CORS', 'XSS Prevention'].map(item => (
-                      <span key={item} className={`px-3 py-1.5 rounded-lg text-xs font-semibold ${dm ? 'bg-zinc-800 text-zinc-300 border border-zinc-700' : 'bg-zinc-100 text-zinc-700 border border-zinc-200'}`}>{item}</span>
+
+                  {/* Stack */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
+                    {project.tech.map(t => (
+                      <span key={t} className="skill-tag">{t}</span>
                     ))}
+                  </div>
+
+                  {/* Impact */}
+                  {project.impact && (
+                    <p style={{ fontSize: 14, fontStyle: 'italic', color: T.secondary, marginBottom: 20 }}>{project.impact}</p>
+                  )}
+
+                  {/* Links */}
+                  <div style={{ display: 'flex', gap: 20 }}>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="proj-link-btn">
+                      <FileCode size={13} /> Source
+                    </a>
+                    {project.demo && (
+                      <a href={project.demo} target="_blank" rel="noopener noreferrer" className="proj-link-btn">
+                        <ExternalLink size={13} /> Live demo
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </SectionReveal>
-      </section>
+            ))}
 
-      {/* Projects Section */}
-      <section id="projects" className={`py-24 px-6 ${dm ? 'bg-[#0a0f1c]' : 'bg-[#f8fafc]'}`}>
-        <SectionReveal id="projects-content">
-          <div className="max-w-6xl mx-auto">
-            <div className="mb-14 space-y-3 text-center">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500">Featured Work</p>
-              <h2 className="text-4xl lg:text-5xl font-black">Recent <span className="gradient-text">Projects</span></h2>
-            </div>
-            <div className="space-y-8">
-              {projects.map((project, idx) => (
-                <div key={project.id} className={`project-card-premium p-8 lg:p-10 rounded-3xl glow-border ${dm ? 'glass' : 'glass-light shadow-sm hover:shadow-xl'}`}>
-                  <div className="space-y-6">
-                    <div className="flex items-start justify-between gap-4 flex-wrap">
-                      <div className="space-y-2">
-                        <div className="flex items-center gap-3 flex-wrap">
-                          <span className="mono text-xs text-zinc-400 font-bold">{project.year}</span>
-                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${dm ? 'bg-zinc-800 text-zinc-300 border border-zinc-700' : 'bg-zinc-50 text-zinc-700 border border-zinc-200'}`}>
-                            <CheckCircle2 className="w-3 h-3" /> Production
-                          </span>
-                        </div>
-                        <h3 className="text-2xl lg:text-3xl font-black">{project.title}</h3>
-                        <p className={`text-sm font-medium ${dm ? 'text-zinc-400' : 'text-zinc-500'}`}>{project.subtitle}</p>
-                      </div>
-                    </div>
-                    <p className={`leading-relaxed ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>{project.description}</p>
-                    <div className={`p-4 rounded-xl border-l-2 border-white ${dm ? 'bg-white/5' : 'bg-zinc-50'}`}>
-                      <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-zinc-400">Technical Challenge</p>
-                      <p className={`text-sm ${dm ? 'text-zinc-300' : 'text-zinc-700'}`}>{project.challenge}</p>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest mb-3 text-zinc-400">Key Features</p>
-                      <div className="grid sm:grid-cols-2 gap-2">
-                        {project.features.map((f, i) => (
-                          <div key={i} className="flex items-center gap-2 text-sm">
-                            <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${dm ? 'text-zinc-400' : 'text-zinc-300'}`} />
-                            <span className={dm ? 'text-zinc-300' : 'text-zinc-700'}>{f}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest mb-3 text-zinc-400">Tech Stack</p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.map(t => (
-                          <span key={t} className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${dm ? 'bg-white/5 text-zinc-300 border border-white/10 hover:border-white/30' : 'bg-zinc-100 text-zinc-700 border border-zinc-200 hover:border-zinc-400'}`}>{t}</span>
-                        ))}
-                      </div>
-                    </div>
-                    {project.impact && (
-                      <div className={`p-4 rounded-xl ${dm ? 'bg-gradient-to-r from-white/5 to-zinc-500/5 border border-white/5' : 'bg-gradient-to-r from-zinc-50 to-zinc-100 border border-zinc-200'}`}>
-                        <p className="text-[10px] font-bold uppercase tracking-widest mb-1 text-zinc-400">Impact</p>
-                        <p className="text-sm font-bold">{project.impact}</p>
-                      </div>
-                    )}
-                    <div className="flex gap-3 pt-2">
-                      <a href={project.github} target="_blank" rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl bg-white text-black hover:bg-zinc-200 transition-all duration-300 hover:-translate-y-0.5">
-                        <FileCode className="w-4 h-4" /> VIEW CODE
-                      </a>
-                      {project.demo && (
-                        <a href={project.demo} className={`inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 ${dm ? 'glass hover:bg-white/10' : 'glass-light hover:bg-zinc-100'}`}>
-                          <ExternalLink className="w-4 h-4" /> LIVE DEMO
-                        </a>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-12 text-center">
+            {/* Footer link */}
+            <div style={{ paddingTop: 32, display: 'flex', justifyContent: 'flex-end' }}>
               <a href="https://github.com/kobe824-create" target="_blank" rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-xl transition-all duration-300 hover:-translate-y-0.5 ${dm ? 'glass hover:bg-white/10' : 'glass-light hover:bg-zinc-100 hover:shadow-md'}`}>
-                <Github className="w-5 h-5" /> MORE ON GITHUB
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 14, color: T.muted, opacity: 0.7, transition: 'opacity 0.2s' }}
+                onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+                onMouseLeave={e => e.currentTarget.style.opacity = '0.7'}>
+                <Github size={14} /> More on GitHub
               </a>
             </div>
           </div>
         </SectionReveal>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className={`py-24 px-6 ${dm ? 'bg-[#0d1224]' : 'bg-white'}`}>
+      {/* ── CONTACT ─────────────────────────────────────────────────── */}
+      <section id="contact" style={{ padding: '96px 24px', background: T.bgAlt }}>
         <SectionReveal id="contact-content">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center space-y-4 mb-14">
-              <p className="text-xs font-bold tracking-[0.2em] uppercase text-zinc-500">Get In Touch</p>
-              <h2 className="text-4xl lg:text-5xl font-black">Let's Work <span className="gradient-text">Together</span></h2>
-              <p className={`max-w-2xl mx-auto ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>I'm actively seeking internship and junior developer opportunities. Let's connect and build something great.</p>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 52 }}>
+              <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Contact</p>
+              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 04</p>
             </div>
-            <div className="grid sm:grid-cols-3 gap-4 mb-8">
-              {[
-                { icon: Mail, title: 'Email', value: 'iradukunda1happy1@gmail.com', link: 'mailto:iradukunda1happy1@gmail.com' },
-                { icon: Github, title: 'GitHub', value: '@kobe824-create', link: 'https://github.com/kobe824-create' },
-                { icon: Linkedin, title: 'LinkedIn', value: 'Connect with me', link: '#' }
-              ].map((c, i) => (
-                <a key={i} href={c.link || '#'} target={c.link?.startsWith('http') ? '_blank' : undefined} rel={c.link?.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className={`group p-6 rounded-2xl text-center transition-all duration-300 hover:-translate-y-1 glow-border ${dm ? 'glass hover:bg-white/5' : 'glass-light shadow-sm hover:shadow-md'}`}>
-                  <div className={`w-12 h-12 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform`}>
-                    <c.icon className="w-5 h-5 text-white" />
-                  </div>
-                  <h3 className="font-bold mb-1">{c.title}</h3>
-                  <p className={`text-xs break-all ${dm ? 'text-zinc-400' : 'text-zinc-600'}`}>{c.value}</p>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
+              <div>
+                <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.15, color: T.text, marginBottom: 20 }}>
+                  Let's work<br />together.
+                </h2>
+                <p style={{ fontSize: 15, color: T.secondary, lineHeight: 1.8, maxWidth: 380, marginBottom: 36 }}>
+                  Actively seeking internship and junior developer opportunities. Whether you have a project in mind or want to discuss possibilities, I'd love to hear from you.
+                </p>
+                <a href="mailto:iradukunda1happy1@gmail.com" className="btn-solid">
+                  <Mail size={15} /> Send an email
                 </a>
-              ))}
-            </div>
-            <div className="p-8 rounded-3xl bg-white text-black text-center relative overflow-hidden">
-              <div className="relative z-10">
-                <h3 className="text-2xl lg:text-3xl font-black mb-3 text-black">Ready to Collaborate?</h3>
-                <p className="mb-6 max-w-xl mx-auto text-zinc-600">Whether you have a project in mind or want to discuss opportunities, I'd love to hear from you.</p>
-                <div className="flex flex-wrap gap-3 justify-center">
-                  <a href="mailto:iradukunda1happy1@gmail.com" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-xl bg-black text-white hover:bg-zinc-800 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg">
-                    <Mail className="w-4 h-4" /> SEND EMAIL
+              </div>
+
+              {/* Contact rows */}
+              <div style={{ borderLeft: `0.5px solid ${T.border}`, paddingLeft: 40 }}>
+                {[
+                  { icon: Mail, title: 'Email', value: 'iradukunda1happy1@gmail.com', link: 'mailto:iradukunda1happy1@gmail.com' },
+                  { icon: Github, title: 'GitHub', value: '@kobe824-create', link: 'https://github.com/kobe824-create' },
+                  { icon: Linkedin, title: 'LinkedIn', value: 'Iradukunda Happy', link: 'https://www.linkedin.com/in/iradukunda-happy-7873a1277/' },
+                  { icon: Globe, title: 'Location', value: 'Kigali, Rwanda · remote-ready', link: null },
+                ].map((c, i) => (
+                  <a key={i} href={c.link || undefined} target={c.link?.startsWith('http') ? '_blank' : undefined}
+                    rel={c.link?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="contact-row" style={{ textDecoration: 'none', cursor: c.link ? 'pointer' : 'default', paddingLeft: 8, paddingRight: 8, marginLeft: -8, marginRight: -8, borderRadius: 6 }}>
+                    <c.icon size={15} style={{ color: T.muted, flexShrink: 0 }} />
+                    <div>
+                      <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 2 }}>{c.title}</p>
+                      <p style={{ fontSize: 14, color: T.text }}>{c.value}</p>
+                    </div>
+                    {c.link && <ArrowUpRight size={13} style={{ color: T.muted, marginLeft: 'auto' }} />}
                   </a>
-                  <a href="#" className="inline-flex items-center gap-2 px-6 py-3 text-sm font-bold rounded-xl border-2 border-black/10 text-black hover:bg-zinc-100 transition-all duration-300 hover:-translate-y-0.5">
-                    <Download className="w-4 h-4" /> RESUME
-                  </a>
-                </div>
+                ))}
               </div>
             </div>
           </div>
         </SectionReveal>
       </section>
 
-      {/* Footer */}
-      <footer className={`py-10 px-6 ${dm ? 'bg-[#060a14] border-t border-white/5' : 'bg-slate-50 border-t border-slate-200'}`}>
-        <div className="max-w-6xl mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="text-center md:text-left">
-              <p className="font-black text-lg gradient-text">Iradukunda Happy</p>
-              <p className={`text-xs mt-1 ${dm ? 'text-slate-500' : 'text-slate-500'}`}>Full-Stack Developer • Blockchain • ML Enthusiast</p>
+      {/* ── FOOTER ──────────────────────────────────────────────────── */}
+      <footer style={{ padding: '0 24px', background: T.bg }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div className="footer-inner">
+            <div>
+              <p className="mono" style={{ fontSize: 14, fontWeight: 500, color: T.text }}>Iradukunda Happy</p>
+              <p className="mono" style={{ fontSize: 11, color: T.muted, marginTop: 4 }}>Full-Stack · Blockchain · ML</p>
             </div>
-            <div className="flex items-center gap-2">
+            <div style={{ display: 'flex', gap: 8 }}>
               {[
                 { icon: Github, href: 'https://github.com/kobe824-create', label: 'GitHub' },
-                { icon: Linkedin, href: '#', label: 'LinkedIn' },
-                { icon: Mail, href: 'mailto:iradukunda1happy1@gmail.com', label: 'Email' }
+                { icon: Linkedin, href: 'https://www.linkedin.com/in/iradukunda-happy-7873a1277/', label: 'LinkedIn' },
+                { icon: Mail, href: 'mailto:iradukunda1happy1@gmail.com', label: 'Email' },
               ].map(s => (
-                <a key={s.label} href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined} rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className={`p-2.5 rounded-xl transition-all duration-300 hover:-translate-y-0.5 ${dm ? 'text-zinc-500 hover:text-white hover:bg-white/5' : 'text-zinc-400 hover:text-black hover:bg-zinc-100'}`} aria-label={s.label}>
-                  <s.icon className="w-[18px] h-[18px]" />
+                <a key={s.label} href={s.href} target={s.href.startsWith('http') ? '_blank' : undefined}
+                  rel={s.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="icon-btn" aria-label={s.label}>
+                  <s.icon size={15} />
                 </a>
               ))}
             </div>
-          </div>
-          <div className={`pt-6 mt-6 border-t text-center text-xs ${dm ? 'border-white/5 text-slate-600' : 'border-slate-200 text-slate-400'}`}>
-            <p>© {new Date().getFullYear()} Iradukunda Happy. Crafted with <Heart className="w-3 h-3 inline text-red-400" /> using React & Tailwind CSS.</p>
+            <p className="mono" style={{ fontSize: 11, color: T.muted }}>
+              © {new Date().getFullYear()} · crafted with <Heart size={10} style={{ display: 'inline', color: '#f87171', verticalAlign: 'middle' }} /> using React & Tailwind
+            </p>
           </div>
         </div>
       </footer>
