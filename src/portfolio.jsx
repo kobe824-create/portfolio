@@ -328,7 +328,7 @@ const Portfolio = () => {
                 filter: dm ? 'none' : 'none',
               }} />
               <div style={{ alignSelf: 'flex-end', textAlign: 'right' }}>
-                <p className="mono" style={{ fontSize: 11, color: T.muted }}>3+ yrs experience</p>
+                <p className="mono" style={{ fontSize: 11, color: T.muted }}>4+ yrs experience</p>
                 <p className="mono" style={{ fontSize: 11, color: T.muted }}>Kigali · remote-ready</p>
               </div>
             </div>
