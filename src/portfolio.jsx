@@ -644,7 +644,7 @@ const Portfolio = () => {
               ))}
             </div>
             <p className="mono" style={{ fontSize: 11, color: T.muted }}>
-              © {new Date().getFullYear()} · crafted with <Heart size={10} style={{ display: 'inline', color: '#f87171', verticalAlign: 'middle' }} /> using React & Tailwind
+              © {new Date().getFullYear()} · developed by Iraduukunda Happy using React & Tailwind
             </p>
           </div>
         </div>
