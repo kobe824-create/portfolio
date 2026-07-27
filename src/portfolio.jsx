@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Github, Linkedin, Mail, ExternalLink, Code2, Shield, Menu, X, ArrowUpRight, FileCode, Database, Globe, Server, Terminal, Moon, Sun, Smartphone, Cpu, Layers, ChevronDown, Zap, Trophy, Users, Heart } from 'lucide-react';
+import { Github, Linkedin, Mail, ExternalLink, Code2, Shield, Menu, X, ArrowUpRight, FileCode, Database, Globe, Server, Terminal, Moon, Sun, Smartphone, Cpu, Layers, ChevronDown, Zap, Trophy, Users, Heart, Briefcase, CheckCircle2 } from 'lucide-react';
 
 const roles = ['Full-Stack Developer', 'Blockchain Engineer', 'ML Enthusiast', 'Mobile Developer'];
 
@@ -82,7 +82,7 @@ const Portfolio = () => {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+      const sections = ['home', 'about', 'experience', 'skills', 'projects', 'contact'];
       const current = sections.find(s => {
         const el = document.getElementById(s);
         if (el) { const r = el.getBoundingClientRect(); return r.top <= 100 && r.bottom >= 100; }
@@ -96,13 +96,30 @@ const Portfolio = () => {
 
   const skills = {
     frontend: { icon: Code2, items: ['JavaScript', 'React', 'Next.js', 'TypeScript', 'Vue.js', 'Tailwind CSS', 'HTML5 & CSS3'] },
-    backend: { icon: Server, items: ['Node.js', 'Express.js', 'Python', 'REST APIs', 'JWT Auth', 'PHP'] },
+    backend: { icon: Server, items: ['Node.js', 'Express.js', 'Python', 'Ruby', 'Ruby on Rails', 'REST APIs', 'JWT Auth', 'PHP'] },
     'ai & data': { icon: Cpu, items: ['Python', 'Machine Learning', 'Data Analysis', 'TensorFlow'] },
     blockchain: { icon: Layers, items: ['Solidity', 'Remix IDE', 'Smart Contracts', 'Web3.js'] },
     mobile: { icon: Smartphone, items: ['React Native', 'Flutter', 'Mobile UI/UX', 'Cross-Platform'] },
     database: { icon: Database, items: ['MySQL', 'PostgreSQL', 'MongoDB'] },
     tools: { icon: Terminal, items: ['Git & GitHub', 'Linux', 'VS Code', 'Postman', 'Docker'] },
   };
+
+  const experiences = [
+    {
+      id: '01',
+      role: 'Software Development Intern',
+      company: 'DDIN',
+      period: '1-month internship · extended 2 months',
+      summary: 'Joined DDIN for a one-month internship and stayed on for an additional two months after the team asked me to continue contributing to active product work.',
+      details: [
+        'Built and shipped features alongside the engineering team using modern web technologies.',
+        'Took ownership of testing and debugging cycles ahead of production releases.',
+        'Supported deployment of live features, working directly within the team\'s production workflow.',
+        'Collaborated closely with engineers and product owners to turn requirements into working software.',
+      ],
+      gained: ['Production Deployment', 'Debugging', 'Team Collaboration', 'Testing', 'Problem-Solving'],
+    },
+  ];
 
   const projects = [
     {
@@ -138,7 +155,7 @@ const Portfolio = () => {
   ];
 
   const stats = [
-    { icon: Trophy, value: '3+', label: 'Years Coding' },
+    { icon: Trophy, value: '4+', label: 'Years Coding' },
     { icon: Zap, value: '5+', label: 'Projects Built' },
     { icon: Layers, value: '7+', label: 'Tech Domains' },
     { icon: Users, value: '100%', label: 'Passion' },
@@ -212,6 +229,10 @@ const Portfolio = () => {
         .proj-link-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: ${T.secondary}; border-bottom: 0.5px solid currentColor; padding-bottom: 1px; transition: color 0.2s; }
         .proj-link-btn:hover { color: ${T.text}; }
 
+        /* Experience entry (mirrors project entry rhythm) */
+        .exp-entry { display: grid; grid-template-columns: 2.5rem 1fr; gap: 0 2rem; padding: 36px 0; border-bottom: 0.5px solid ${T.border}; }
+        .exp-detail { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.7; color: ${T.secondary}; margin-bottom: 10px; max-width: 560px; }
+
         /* Contact row */
         .contact-row { display: flex; align-items: center; gap: 20px; padding: 18px 0; border-bottom: 0.5px solid ${T.border}; transition: background 0.15s; }
         .contact-row:hover { background: ${dm ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)'}; }
@@ -223,7 +244,7 @@ const Portfolio = () => {
         .mobile-menu { position: fixed; top: 57px; left: 0; right: 0; z-index: 49; padding: 12px 20px 20px; border-bottom: 0.5px solid ${T.border}; background: ${dm ? 'rgba(10,15,28,0.97)' : 'rgba(248,250,252,0.97)'}; backdrop-filter: blur(16px); }
 
         @media (max-width: 768px) {
-          .proj-entry { grid-template-columns: 1.5rem 1fr; gap: 0 12px; }
+          .proj-entry, .exp-entry { grid-template-columns: 1.5rem 1fr; gap: 0 12px; }
           .skill-row { grid-template-columns: 1fr; gap: 8px; }
           .stat-item + .stat-item { border-left: none; padding-left: 0; margin-left: 0; border-top: 0.5px solid ${T.border}; padding-top: 20px; margin-top: 0; }
         }
@@ -241,7 +262,7 @@ const Portfolio = () => {
           <a href="#home" style={{ fontFamily: 'DM Mono, monospace', fontSize: 15, fontWeight: 500, color: T.text, letterSpacing: '0.05em' }}>IH.</a>
 
           <div className="hidden md:flex" style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            {['About', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
+            {['About', 'Experience', 'Skills', 'Projects', 'Contact'].map((item, idx) => (
               <a key={item} href={`#${item.toLowerCase()}`}
                 className={`nav-link${activeSection === item.toLowerCase() ? ' active' : ''}`}>
                 <span className="mono" style={{ fontSize: 10, color: T.muted, marginRight: 6 }}>{String(idx + 1).padStart(2, '0')}</span>{item}
@@ -266,7 +287,7 @@ const Portfolio = () => {
         </div>
         {menuOpen && (
           <div className="mobile-menu">
-            {['About', 'Skills', 'Projects', 'Contact'].map(item => (
+            {['About', 'Experience', 'Skills', 'Projects', 'Contact'].map(item => (
               <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}
                 style={{ display: 'block', padding: '12px 8px', fontSize: 14, color: T.secondary, borderBottom: `0.5px solid ${T.border}` }}>
                 {item}
@@ -404,7 +425,7 @@ const Portfolio = () => {
                   <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 20 }}>Quick facts</p>
                   {[
                     { label: 'Location', value: 'Kigali, Rwanda' },
-                    { label: 'Experience', value: '3+ years coding' },
+                    { label: 'Experience', value: '4+ years coding' },
                     { label: 'Focus', value: 'Full-Stack & Blockchain' },
                     { label: 'Availability', value: 'Open to opportunities', dot: true },
                   ].map((f, i) => (
@@ -428,13 +449,71 @@ const Portfolio = () => {
         </SectionReveal>
       </section>
 
+      {/* ── EXPERIENCE ──────────────────────────────────────────────── */}
+      <section id="experience" style={{ padding: '96px 24px', background: T.bgAlt }}>
+        <SectionReveal id="experience-content">
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 0 }}>
+              <div>
+                <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 4 }}>Experience</p>
+                <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, letterSpacing: '-0.02em', color: T.text }}>Where I've worked</h2>
+              </div>
+              <div style={{ textAlign: 'right' }}>
+                <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 02</p>
+                <p className="mono" style={{ fontSize: 10, color: T.muted }}>{experiences.length} role</p>
+              </div>
+            </div>
+
+            {experiences.map((exp) => (
+              <div key={exp.id} className="exp-entry">
+                {/* Index col */}
+                <p className="mono" style={{ fontSize: 11, color: T.muted, paddingTop: 4 }}>{exp.id}</p>
+
+                {/* Content col */}
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 8 }}>
+                    <Briefcase size={13} style={{ color: T.muted }} />
+                    <span className="mono" style={{ fontSize: 11, color: T.muted }}>{exp.period}</span>
+                  </div>
+
+                  <h3 style={{ fontSize: 22, fontWeight: 700, letterSpacing: '-0.01em', color: T.text, marginBottom: 2 }}>{exp.role}</h3>
+                  <p style={{ fontSize: 14, color: T.secondary, marginBottom: 16 }}>{exp.company}</p>
+                  <p style={{ fontSize: 15, lineHeight: 1.75, color: T.secondary, maxWidth: 560, marginBottom: 20 }}>{exp.summary}</p>
+
+                  {/* Contributions */}
+                  <div style={{ marginBottom: 20 }}>
+                    <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>Contributions</p>
+                    {exp.details.map((d, i) => (
+                      <div key={i} className="exp-detail">
+                        <CheckCircle2 size={14} style={{ color: T.muted, flexShrink: 0, marginTop: 2 }} />
+                        <span>{d}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Gained */}
+                  <div style={{ marginBottom: 4 }}>
+                    <p className="mono" style={{ fontSize: 10, color: T.muted, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>Strengthened</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                      {exp.gained.map(g => (
+                        <span key={g} className="skill-tag">{g}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </SectionReveal>
+      </section>
+
       {/* ── SKILLS ──────────────────────────────────────────────────── */}
-      <section id="skills" style={{ padding: '96px 24px', background: T.bgAlt }}>
+      <section id="skills" style={{ padding: '96px 24px', background: T.bg }}>
         <SectionReveal id="skills-content">
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 52 }}>
               <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Technical Expertise</p>
-              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 02</p>
+              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 03</p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 64px', alignItems: 'start' }}>
@@ -478,7 +557,7 @@ const Portfolio = () => {
       </section>
 
       {/* ── PROJECTS ────────────────────────────────────────────────── */}
-      <section id="projects" style={{ padding: '96px 24px', background: T.bg }}>
+      <section id="projects" style={{ padding: '96px 24px', background: T.bgAlt }}>
         <SectionReveal id="projects-content">
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 0 }}>
@@ -487,7 +566,7 @@ const Portfolio = () => {
                 <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', fontWeight: 700, letterSpacing: '-0.02em', color: T.text }}>Selected projects</h2>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 03</p>
+                <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 04</p>
                 <p className="mono" style={{ fontSize: 10, color: T.muted }}>{projects.length} entries</p>
               </div>
             </div>
@@ -576,12 +655,12 @@ const Portfolio = () => {
       </section>
 
       {/* ── CONTACT ─────────────────────────────────────────────────── */}
-      <section id="contact" style={{ padding: '96px 24px', background: T.bgAlt }}>
+      <section id="contact" style={{ padding: '96px 24px', background: T.bg }}>
         <SectionReveal id="contact-content">
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
             <div className="ruled-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: 20, marginBottom: 52 }}>
               <p className="mono" style={{ fontSize: 10, color: T.muted, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Contact</p>
-              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 04</p>
+              <p className="mono" style={{ fontSize: 10, color: T.muted }}>§ 05</p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 64, alignItems: 'start' }}>
